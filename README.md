@@ -1,4 +1,6 @@
-COVA 2 is a anime view manager, developed in Java.
+COVA 2
+========
+COVA 2 is a anime view manager, developed mainly in Java.
 Problem:
 When you're watching an anime series you can lost track of the last episode that you watched.  Likewise the entire series.
 Solution:
