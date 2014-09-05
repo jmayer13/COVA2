@@ -1,5 +1,10 @@
 apply plugin: 'java'
 
+//code style
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+
+
 sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
@@ -14,16 +19,30 @@ if (!hasProperty('mainClass')) {
     ext.mainClass = 'Main'
 }
 
+sourceSets {
+    main {
+        java {
+            srcDir 'src/java'
+        }
+        resources {
+            srcDir 'src/resources'
+        }
+    }
+}
+
+
 repositories {
     mavenCentral()
-    // You may define additional repositories, or even remove "mavenCentral()".
-    // Read more about repositories here:
-    //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:repositories
 }
 
 dependencies {
-    // TODO: Add dependencies here ...
-    // You can read more about how to add dependency here:
-    //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:how_to_declare_your_dependencies
+    //h2 relational database
+    //compile 'com.h2database:h2:1.4.181'
+    compile fileTree('libs')
+    //JFreeChart
+    compile 'org.jfree:jfreechart:1.0.19'
+    //Log4J
+    compile 'org.apache.logging.log4j:log4j-core:2.0.2'
+    //junit unitary test library
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
