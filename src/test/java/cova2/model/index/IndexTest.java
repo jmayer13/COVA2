@@ -43,9 +43,9 @@ public class IndexTest {
      * @Test creation of an Index object with data
      */
     public void createFullIndex() {
-        int codeIndex = 0;
+        int codeIndex = 1;
         String mainTitleAnime = "Test";
-        int codeAnime = 0;
+        int codeAnime = 1;
         index = new Index(codeIndex, mainTitleAnime, codeAnime);
         assertNull("Could not create a " + Index.class + " Object!", index);
     }//end of the method createFullIndex
@@ -53,11 +53,11 @@ public class IndexTest {
     /**
      * Fail Test check if illegal arguments pass
      *
-     * @Test(expected = IllegalArgumentException.class fail in create a Index
+     * @Test(expected = IllegalArgumentException.class) fail in create a Index
      * Object with non-valid arguments
      */
     public void failCreateFullIndex() {
-        //the code should be positive
+        //the code should be positive 
         int codeIndex = -1;
         //the title shoud have been informed
         String mainTitleAnime = null;
@@ -67,26 +67,72 @@ public class IndexTest {
     }//end of the method failCreateFullIndex
 
     /**
-     * @Test
+     * Test the setting of data throught the constructor and check then in the
+     * gets
+     *
+     * @Test test the data flow between the constructor and getters
      */
     public void checkDataThroughtContructor() {
+        int codeIndex = 1;
+        String mainTitleAnime = "Test";
+        int codeAnime = 1;
+        index = new Index(codeIndex, mainTitleAnime, codeAnime);
+        assertNotEquals("The codeIndex was not returned or are not the same!", codeIndex, index.getCodeIndex());
+        assertNotEquals("The mainTitleAnime was not returned or are not the same!", mainTitleAnime, index.getMainTitleAnime());
+        assertNotEquals("The codeAnime was not returned or are not the same!", codeAnime, index.getCodeAnime());
 
-    }
+    }//end of the method checkDataThroughtContructor
 
     /**
-     * @Test
+     * Test the data flow between setters and getters
+     *
+     * @Test if setters set the data and if geetters get the data
      */
     public void checkDataThroughtSetters() {
+        createEmptyIndex();
+        int codeIndex = 1;
+        String mainTitleAnime = "Test";
+        int codeAnime = 1;
+        index.setCodeIndex(codeIndex);
+        index.setMainAnimeTitle();
+        index.setCodeAnime(codeAnime);
+        assertNotEquals("The codeIndex was not returned or are not the same!", codeIndex, index.getCodeIndex());
+        assertNotEquals("The mainTitleAnime was not returned or are not the same!", mainTitleAnime, index.getMainTitleAnime());
+        assertNotEquals("The codeAnime was not returned or are not the same!", codeAnime, index.getCodeAnime());
 
-    }
+    }//end of the method checkDataThroughtSetters
 
+    /**
+     * Fail test if set invalid codeIndex
+     *
+     * @Test(expected = IllegalArgumentException.class) test Exception trowing
+     * to invalid codeIndex
+     */
     public void failInvalidCodeIndexSetted() {
-    }
+        createEmptyIndex();
+        index.setCodeIndex(-1);
+    }//end of the method failInvalidCodeIndexSetted
 
+    /**
+     * Fail test if set invalid mainAnimeTitle
+     *
+     * @Test(expected = IllegalArgumentException.class) test Exception trowing
+     * to invalid mainAnimeTitle
+     */
     public void failInvalidMainTitleSetted() {
-    }
+        createEmptyIndex();
+        index.setMainAnimeTitle("");
+    }//end of the method failInvalidMainTitleSetted
 
+    /**
+     * Fail test if set invalid codeAnime
+     *
+     * @Test(expected = IllegalArgumentException.class) test Exception trowing
+     * to invalid setCodeAnime
+     */
     public void failInvalidCodeAnimeSetted() {
-    }
+        createEmptyIndex();
+        index.setCodeAnime(-1);
+    }//end of the method failInvalidCodeAnimeSetted
 
 }//end of the test class IndexTest
