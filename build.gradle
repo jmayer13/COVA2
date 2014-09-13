@@ -1,35 +1,26 @@
 apply plugin: 'java'
 
 //code style
-apply plugin: 'checkstyle'
+//apply plugin: 'checkstyle'
 apply plugin: 'findbugs'
-
-
+ 
 sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-// NetBeans will automatically add "run" and "debug" tasks relying on the
-// "mainClass" property. You may however define the property prior executing
-// tasks by passing a "-PmainClass=<QUALIFIED_CLASS_NAME>" argument.
-//
-// Note however, that you may define your own "run" and "debug" task if you
-// prefer. In this case NetBeans will not add these tasks but you may rely on
-// your own implementation.
+ 
 if (!hasProperty('mainClass')) {
     ext.mainClass = 'Main'
+} 
+
+buildscript {
+    apply from: 'https://github.com/valkolovos/gradle_cobertura/raw/master/repo/gradle_cobertura/gradle_cobertura/1.0/coberturainit.gradle'
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir 'src/java'
-        }
-        resources {
-            srcDir 'src/resources'
-        }
+task hello {
+    doLast {
+        println 'Hello world!'
     }
 }
-
 
 repositories {
     mavenCentral()
@@ -43,6 +34,14 @@ dependencies {
     compile 'org.jfree:jfreechart:1.0.19'
     //Log4J
     compile 'org.apache.logging.log4j:log4j-core:2.0.2'
+    //code covearenge
+    testCompile 'net.saliman:gradle-cobertura-plugin:2.2.4'
     //junit unitary test library
     testCompile group: 'junit', name: 'junit', version: '4.10'
+}
+test {
+    testLogging {
+        // Show that tests are run in the command-line output
+        events 'started', 'passed'
+    }
 }
