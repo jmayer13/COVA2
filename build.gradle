@@ -16,12 +16,6 @@ buildscript {
     apply from: 'https://github.com/valkolovos/gradle_cobertura/raw/master/repo/gradle_cobertura/gradle_cobertura/1.0/coberturainit.gradle'
 }
 
-task hello {
-    doLast {
-        println 'Hello world!'
-    }
-}
-
 repositories {
     mavenCentral()
 }
@@ -35,7 +29,7 @@ dependencies {
     //Log4J
     compile 'org.apache.logging.log4j:log4j-core:2.0.2'
     //code covearenge
-    testCompile 'net.saliman:gradle-cobertura-plugin:2.2.4'
+    //testCompile 'net.saliman:gradle-cobertura-plugin:2.2.4'
     //junit unitary test library
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }

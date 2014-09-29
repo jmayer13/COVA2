@@ -9,17 +9,11 @@ package cova2.model.index;
 public class Index {
 
     //code index represents the primary key of the relational DB
-    private int codeIndex;
+    private int _codeIndex;
     //main title is the title selected to be showed in the list
-    private String mainTitleAnime;
+    private String _mainTitleAnime;
     //code that represent the anime code of the JSON ad-hoc DB
-    private int codeAnime;
-
-    /**
-     * Empty constructor
-     */
-    public Index() {
-    }//end of the empty constructor 
+    private int _codeAnime;
 
     /**
      * Contructor with data
@@ -45,7 +39,7 @@ public class Index {
         if (codeIndex <= 0) {
             throw (new IllegalArgumentException("The codeIndex must be bigger that 0!"));
         } else {
-            this.codeIndex = codeIndex;
+            _codeIndex = codeIndex;
         }
     }//end of the method setCodeIndex
 
@@ -59,7 +53,7 @@ public class Index {
         if (mainTitleAnime == null || mainTitleAnime.equals("")) {
             throw (new IllegalArgumentException("The mainTitleAnime must not be empty!"));
         } else {
-            this.mainTitleAnime = mainTitleAnime;
+            _mainTitleAnime = mainTitleAnime;
         }
     }//end of the method setMainAnimeTitle
 
@@ -70,10 +64,10 @@ public class Index {
      * @throws IllegalArgumentException if code is not bigger that 0
      */
     public void setCodeAnime(int codeAnime) {
-        if (codeIndex <= 0) {
+        if (codeAnime <= 0) {
             throw (new IllegalArgumentException("The codeAnime must be bigger that 0!"));
         } else {
-            this.codeAnime = codeAnime;
+            _codeAnime = codeAnime;
         }
     }//end of the method setCodeAnime
 
@@ -83,7 +77,7 @@ public class Index {
      * @return <code>Integer</code> codeIndex
      */
     public int getCodeIndex() {
-        return codeIndex;
+        return _codeIndex;
     }//end of the method getCodeIndex
 
     /**
@@ -92,7 +86,7 @@ public class Index {
      * @return <code>String</code> mainTitleAnime
      */
     public String getMainTitleAnime() {
-        return mainTitleAnime;
+        return _mainTitleAnime;
     }//end of the method getMainAnimeTitle
 
     /**
@@ -101,7 +95,7 @@ public class Index {
      * @return <code>Integer</code> codeAnime
      */
     public int getCodeAnime() {
-        return codeAnime;
+        return _codeAnime;
     }//end of the method getCodeAnime
 
-}//fim da classe Index 
+}//end of the class Index 

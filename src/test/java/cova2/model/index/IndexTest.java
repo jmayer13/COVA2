@@ -2,7 +2,6 @@ package cova2.model.index;
 
 import org.junit.After;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -29,17 +28,7 @@ public class IndexTest {
     @After
     public void cleaner() {
         index = null;
-        assertNull("Could not clean the object index!", index);
-    }//end of the method cleaner
-
-    /**
-     * Test the iniciation of a empty Index Object
-     */
-    @Test
-    public void createEmptyIndex() {
-        index = new Index();
-        assertNotNull("Could not create an empty " + Index.class + " Object!", index);
-    }//end of the test method createEmptyIndex
+    }//end of the method cleaner 
 
     /**
      * Test the iniciation of a non-empty Index Object
@@ -87,7 +76,7 @@ public class IndexTest {
      */
     @Test
     public void checkDataThroughtSetters() {
-        createEmptyIndex();
+        createFullIndex();
         int codeIndex = 1;
         String mainTitleAnime = "Test";
         int codeAnime = 1;
@@ -105,7 +94,7 @@ public class IndexTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void failInvalidCodeIndexSetted() {
-        createEmptyIndex();
+        createFullIndex();
         index.setCodeIndex(-1);
         index.setCodeIndex(0);
     }//end of the method failInvalidCodeIndexSetted
@@ -115,7 +104,7 @@ public class IndexTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void failInvalidMainTitleSetted() {
-        createEmptyIndex();
+        createFullIndex();
         index.setMainTitleAnime("");
     }//end of the method failInvalidMainTitleSetted
 
@@ -124,7 +113,7 @@ public class IndexTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void failInvalidCodeAnimeSetted() {
-        createEmptyIndex();
+        createFullIndex();
         index.setCodeAnime(-1);
         index.setCodeAnime(0);
     }//end of the method failInvalidCodeAnimeSetted
