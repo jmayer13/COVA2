@@ -115,7 +115,6 @@ public class IndexTest {
     public void failInvalidCodeAnimeSetted() {
         createFullIndex();
         index.setCodeAnime(-1);
-        index.setCodeAnime(0);
     }//end of the method failInvalidCodeAnimeSetted
 
 }//end of the test class IndexTest

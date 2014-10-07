@@ -61,10 +61,10 @@ public class Index {
      * Define the code anime, key to the JSON file
      *
      * @param codeAnime
-     * @throws IllegalArgumentException if code is not bigger that 0
+     * @throws IllegalArgumentException if code is not bigger or equals to 0
      */
     public void setCodeAnime(int codeAnime) {
-        if (codeAnime <= 0) {
+        if (codeAnime < 0) {
             throw (new IllegalArgumentException("The codeAnime must be bigger that 0!"));
         } else {
             _codeAnime = codeAnime;
