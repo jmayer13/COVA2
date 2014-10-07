@@ -1,9 +1,13 @@
 package cova2.dao;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import org.junit.After;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -13,65 +17,92 @@ import org.junit.Test;
  */
 public class ConnectIndexDBTest {
 
+    //class tested
     private ConnectIndexDB connectIndexDB;
 
+    /**
+     * Calls contructor
+     *
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException
+     */
+    @Before
+    public void intenceClass() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Constructor constructors[] = ConnectIndexDB.class.getDeclaredConstructors();
+        constructors[0].setAccessible(true);
+        connectIndexDB = (ConnectIndexDB) constructors[0].newInstance();
+    }//end of the method intenceClass
+
+    /**
+     * Delete the database
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @After
-    public void dropSchema() {
-        connectIndexDB = new ConnectIndexDB();
-        connectIndexDB.dropDatabase();
-    }
-
-    @Test
-    public void checkSchemaExistence() {
-        connectIndexDB = new ConnectIndexDB();
-        connectIndexDB.dropDatabase();
-        boolean schemaEmpty = connectIndexDB.isSchemaReady();
-        assertFalse("Could not erase schema!", schemaEmpty);
-    }
-
-    @Test
-    public void checkSchemaExistence() {
-        connectIndexDB = new ConnectIndexDB();
-        connectIndexDB.dropDatabase();
-        connectIndexDB.isSchemaReady();
-        connectIndexDB.createSchema();
-        boolean schemaEmpty = connectIndexDB.isSchemaReady();
-        assertTrue("Could not create schema!", schemaEmpty);
-    }
-
-    @Test
-    public void connect() {
-        connectIndexDB = new ConnectIndexDB();
+    public void dropDatabase() throws SQLException, ClassNotFoundException {
         connectIndexDB.getConnection();
-    }
+        connectIndexDB.dropDatabase();
+        connectIndexDB.closeConnection();
+        connectIndexDB = null;
+    }//end of the method dropDatabase
 
+    /**
+     * Check the creation of the database and their existence
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @Test
-    public void closeConnection() {
-        connectIndexDB = new ConnectIndexDB();
+    public void checkDatabaseExistence() throws SQLException, ClassNotFoundException {
         connectIndexDB.getConnection();
-        boolean closed connectIndexDB.closeConnection();
+        connectIndexDB.dropDatabase();
+        connectIndexDB.getConnection();
+        boolean databaseEmpty = connectIndexDB.isDatabaseReady();
+        assertTrue("Could not create database!", databaseEmpty);
+    }//end of method checkDatabaseExistence
+
+    /**
+     * Test the unsafe connection
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    @Test
+    public void connect() throws SQLException, ClassNotFoundException {
+        Connection connection = connectIndexDB.getConnection();
+        assertNotNull("Could not connect!", connection);
+    }//end of the method connect
+
+    /**
+     * Test if close the connection with the database
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    @Test
+    public void closeConnection() throws SQLException, ClassNotFoundException {
+        connectIndexDB.getConnection();
+        boolean closed = connectIndexDB.closeConnection();
         assertTrue("Could not close connection!", closed);
-    }
+    }//end of the method closeConnection
 
+    /**
+     * Test if the database is created
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @Test
-    public void createSchema() {
+    public void createTable() throws SQLException, ClassNotFoundException {
+        if (connectIndexDB.isDatabaseReady()) {
+            connectIndexDB.dropDatabase();
+        }
+        connectIndexDB.connect();
+        connectIndexDB.createTable();
+        assertTrue("Could not create table!", connectIndexDB.isDatabaseReady());
+    }//end of the method createTable
 
-    }
-
-    @Test
-    public void createTable() {
-
-    }
-
-    @Test(expected = SQLException.class)
-    public void failsConnectWithoutSchema() {
-
-    }
-
-    @Test(expected = SQLException.class)
-    public void failDoubleDropSchema() {
-        connectIndexDB = new ConnectIndexDB();
-        connectIndexDB.dropDatabase();
-        connectIndexDB.dropDatabase();
-    }
-}//end of the class ConnectIndexDBTest
+}//end of the class ConnectIndexDBTest 

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Descrição
@@ -14,68 +16,89 @@ public class ConnectIndexDB {
 
     private Connection _connection;
     private final String DRIVE_CLASS = "org.h2.Driver";
-    private final String URL = "jdbc:h2:./data/db/indexDB";
+    private final String URL = "jdbc:h2:./data/db/index";
     private final String SAFE_URL = "jdbc:h2:./data/db/index;IFEXISTS=TRUE";
     private final String USER_NAME = "cova2";
     private final String PASSSWORD = "";
-    private final String SCHEMA_NAME = "indexDB";
 
-    private ConnectIndexDB() {
-        if (isSchemaReady()) {
-            _connection = this.connect();
-        } else {
-
+    private ConnectIndexDB() throws ClassNotFoundException, SQLException {
+        try {
+            Class.forName(DRIVE_CLASS);
+        } catch (ClassNotFoundException classNotFoundException) {
+            Logger logger = LogManager.getLogger(ConnectIndexDB.class.getName());
+            logger.error("Could not found the IndexDB drive.", classNotFoundException);
         }
     }
 
-    private Connection connect() throws SQLException, ClassNotFoundException {
-        Class.forName(DRIVE_CLASS);
+    public Connection connect() throws SQLException, ClassNotFoundException {
         _connection = DriverManager.getConnection(URL, USER_NAME, PASSSWORD);
         return _connection;
     }
 
-    public boolean createSchema() throws SQLException, ClassNotFoundException {
-        boolean result;
-        String schemaSQL = "CREATE SCHEMA " + SCHEMA_NAME;
-        PreparedStatement schemaStatement = connection.prepareStatement(schemaSQL);
-        result = schemaStatement.execute();
-        //create table index
-        schemaStatement.close();
-        createTable();
-        connection.close();
-        return result;
+    public Connection getConnection() throws SQLException, ClassNotFoundException {
+        if (isDatabaseReady()) {
+            connect();
+            return _connection;
+        } else {
+            connect();
+            createTable();
+            if (isDatabaseReady()) {
+                return _connection;
+            } else {
+                Logger logger = LogManager.getLogger(ConnectIndexDB.class.getName());
+                logger.error("Could not create database!: SQL script of creation ineffective!");
+                throw new SQLException("Could not create database!: SQL script of creation ineffective! ");
+            }
+        }
     }
 
     public boolean createTable() throws SQLException {
         boolean result;
-        String tableSQL = "CREATE TABLE IF NOT EXISTS index (code_index INT PRIMARY KEY, main_title VARCHAR(2000), code_anime INT)";
-        PreparedStatement tableCreator = connection.prepareStatement(tableSQL);
+        String tableSQL = "CREATE TABLE index (code_index INT PRIMARY KEY, main_title VARCHAR(2000), code_anime INT)";
+        PreparedStatement tableCreator = _connection.prepareStatement(tableSQL);
         result = tableCreator.execute();
         tableCreator.close();
         return result;
     }
 
     public boolean dropDatabase() throws SQLException, ClassNotFoundException {
-        boolean result;
-        Connection connection = connect();
-        String eraseSQL = "DROP SCHEMA IF EXISTS " + SCHEMA_NAME;
-        PreparedStatement schemaEraser = connection.prepareStatement(eraseSQL);
-        result = schemaEraser.execute();
-        schemaEraser.close();
-        connection.close();
-        return result;
+        if (_connection != null) {
+            boolean result;
+            String eraseSQL = "DROP ALL OBJECTS";
+            PreparedStatement databaseEraser = _connection.prepareStatement(eraseSQL);
+            result = databaseEraser.execute();
+            databaseEraser.close();
+            return result;
+        } else {
+            throw (new NullPointerException("The connection is not active!"));
+        }
     }
 
-    public boolean isSchemaReady() throws ClassNotFoundException {
+    public boolean isDatabaseReady() throws ClassNotFoundException {
         boolean result = true;
-        Class.forName(DRIVE_CLASS);
         try {
-            //an exception is throw if the schema do not exist
-            connection = DriverManager.getConnection(SAFE_URL, USER_NAME, PASSSWORD);
-        } catch (SQLException ex) {
+            //an exception is throw if the database do not exist
+            _connection = null;
+            _connection = DriverManager.getConnection(SAFE_URL, USER_NAME, PASSSWORD);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            Logger logger = LogManager.getLogger(ConnectIndexDB.class.getName());
+            logger.warn("Database is not ready.", exception);
+            result = false;
+        }
+        if (_connection == null) {
             result = false;
         }
         return result;
     }
 
-}//enf of the class ConnectIndexDB 
+    public boolean closeConnection() throws SQLException {
+        if (_connection != null) {
+            _connection.close();
+            return _connection.isClosed();
+        } else {
+            throw (new NullPointerException("The connection is not active!"));
+        }
+    }
+
+}//enf of the class ConnectIndexDB  
