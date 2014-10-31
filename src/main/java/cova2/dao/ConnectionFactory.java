@@ -11,7 +11,7 @@ import java.lang.reflect.Constructor;
 public class ConnectionFactory {
 
     //volatile = variable's value will be modified by different threads
-    private static volatile ConnectIndexDB connectionDatabase;
+    private static volatile ConnectIndexDB _connectionDatabase;
 
     /**
      * Manage the creation intances to ConnectIndexDB
@@ -20,17 +20,17 @@ public class ConnectionFactory {
      * @return <code>ConnectIndexDB</code>
      */
     public static ConnectIndexDB getConnection() {
-        if (connectionDatabase == null) {
+        if (_connectionDatabase == null) {
             synchronized (ConnectionFactory.class) {
                 try {
                     Constructor constructors[] = ConnectIndexDB.class.getDeclaredConstructors();
                     constructors[0].setAccessible(true);
-                    connectionDatabase = (ConnectIndexDB) constructors[0].newInstance();
+                    _connectionDatabase = (ConnectIndexDB) constructors[0].newInstance();
                 } catch (Exception exception) {
 
                 }
             }
         }
-        return connectionDatabase;
+        return _connectionDatabase;
     }//wnf of method getConnection
 }//end of class ConnectionFactory 

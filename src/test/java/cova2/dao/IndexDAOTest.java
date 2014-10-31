@@ -1,7 +1,9 @@
 package cova2.dao;
 
 import cova2.model.index.Index;
+import java.sql.SQLException;
 import java.util.List;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -19,10 +21,23 @@ public class IndexDAOTest {
     private final Index testIndex = new Index(1, "title", 0);
 
     /**
+     * Clean the test data
+     *
+     * @throws SQLException if script don't works
+     */
+    @After
+    public void cleanData() throws SQLException {
+        indexDAO.deleteIndex(testIndex);
+    }//end of the method cleanData
+
+    /**
      * Test registration of Index
+     *
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
      */
     @Test
-    public void testAddIdex() {
+    public void testAddIdex() throws SQLException, ClassNotFoundException {
         indexDAO = new IndexDAO();
         boolean result = indexDAO.addIndex(testIndex);
         assertTrue("Problem when registering Index!", result);
@@ -30,9 +45,12 @@ public class IndexDAOTest {
 
     /**
      * Test the getting of Indexes and if Index sent is the same received
+     *
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
      */
     @Test
-    public void testGetIndexes() {
+    public void testGetIndexes() throws SQLException, ClassNotFoundException {
         testAddIdex();
         List<Index> indexes = indexDAO.getIndexes();
         assertNotNull("Coult not get Indexes!", indexes);

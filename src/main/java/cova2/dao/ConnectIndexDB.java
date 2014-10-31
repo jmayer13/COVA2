@@ -89,7 +89,7 @@ public class ConnectIndexDB {
      */
     public boolean createTable() throws SQLException {
         boolean result;
-        String tableSQL = "CREATE TABLE index (code_index INT PRIMARY KEY, main_title VARCHAR(2000), code_anime INT)";
+        String tableSQL = "CREATE TABLE index (code_index INT PRIMARY KEY, main_title VARCHAR(2000), code_anime INT);";
         PreparedStatement tableCreator = _connection.prepareStatement(tableSQL);
         result = tableCreator.execute();
         tableCreator.close();
@@ -106,7 +106,7 @@ public class ConnectIndexDB {
     public boolean dropDatabase() throws SQLException, NullPointerException {
         if (_connection != null) {
             boolean result;
-            String eraseSQL = "DROP ALL OBJECTS";
+            String eraseSQL = "DROP ALL OBJECTS DELETE FILES;";
             PreparedStatement databaseEraser = _connection.prepareStatement(eraseSQL);
             result = databaseEraser.execute();
             databaseEraser.close();
