@@ -10,11 +10,7 @@ sourceCompatibility = '1.8'
  
 if (!hasProperty('mainClass')) {
     ext.mainClass = 'Main'
-} 
-
-buildscript {
-    apply from: 'https://github.com/valkolovos/gradle_cobertura/raw/master/repo/gradle_cobertura/gradle_cobertura/1.0/coberturainit.gradle'
-}
+}  
 
 repositories {
     mavenCentral()
@@ -27,9 +23,7 @@ dependencies {
     //JFreeChart
     compile 'org.jfree:jfreechart:1.0.19'
     //Log4J
-    compile 'org.apache.logging.log4j:log4j-core:2.0.2'
-    //code covearenge
-    testCompile 'net.saliman:gradle-cobertura-plugin:2.2.4'
+    compile 'org.apache.logging.log4j:log4j-core:2.0.2' 
     //junit unitary test library
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
