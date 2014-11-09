@@ -3,7 +3,8 @@ apply plugin: 'java'
 //code style
 //apply plugin: 'checkstyle'
 apply plugin: 'findbugs'
- 
+apply plugin: "sonar"
+
 sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
@@ -33,3 +34,21 @@ test {
         events 'started', 'passed'
     }
 }
+
+//Gradle Wrapper
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}
+
+sonar {
+    database {
+        url = "org.h2.Driver"
+        driverClassName = "jdbc:h2:./data/db/index"
+        username = "cova2"
+        password = ""
+    }
+    project {
+        coberturaReportPath = file("$buildDir/cobertura.xml")
+    }
+}
+
