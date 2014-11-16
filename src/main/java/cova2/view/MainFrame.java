@@ -10,27 +10,34 @@ import jone.swing.JProportionFrame;
 import jone.util.GoldenRatioCalculator;
 
 /**
- * Descrição
+ * Main view in a frame
  *
  * @see
  * @author Jonas Mayer (jonas.mayer.developer@gmail.com)
  */
 public class MainFrame {
-
-    private final double PROPORTION = 1.25;
-
     /*
      * W3scholl (31/10/2014) "As of today, 99% of your visitors have a screen
      * resolution of 1024x768 pixels or higher." 1024/768 = 1.33333333333
      * 1280x800 = 1.6 1280/1024 = 1.25 1366/768 = 1.77864583333 1920/1080 =
      * 1.77777777778 1440/900 = 1.6 1600/900 = 1.77777777778 78% 1.25 - 1.7789
      */
+
+    //proportion width/height
+    private final double PROPORTION = 1.25;
     private JProportionFrame mainFrame;
 
+    /**
+     * Initiate frame and components
+     */
     public MainFrame() {
         startView();
-    }
+        mainFrame.repaint();
+    }//end of the constructor
 
+    /**
+     * Start view
+     */
     private void startView() {
         InternationalizationCentral iCentral = new InternationalizationCentral();
         mainFrame = new JProportionFrame(PROPORTION);
@@ -75,10 +82,27 @@ public class MainFrame {
         mainFrame.add(deleteButtonComponentHack);
 
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
+    }//end of the method startView
 
+    /**
+     * Check if frame is open
+     *
+     * @return <code>boolean</code> if problem open?
+     */
+    public boolean isOpen() {
+        return mainFrame.isVisible();
+    }//end of the method isOpen
+
+    /**
+     * Close view
+     */
+    public void close() {
+        mainFrame.dispose();
+    }//end of the method close
+
+    //GUI test
     public static void main(String args[]) {
         new MainFrame();
-    }
+    }//end of the method main
 
-}//fim da classe MainFrame 
+}//end of class MainFrame 
