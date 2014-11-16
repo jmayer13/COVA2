@@ -15,7 +15,7 @@ public class StepsSeeAnimeTest {
     }
 
     @Given("^I have (\\d+) anime registered$")
-    public void i_have_anime_registered(Anime anime) {
+    public void i_have_anime_registered() {//Anime anime) {
 
     }
 
