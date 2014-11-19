@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'scala'
 
 //code style
 //apply plugin: 'checkstyle'
@@ -7,7 +8,6 @@ apply plugin: "sonar"
 
 sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
  
 if (!hasProperty('mainClass')) {
     ext.mainClass = 'Main'
@@ -21,12 +21,17 @@ dependencies {
     //h2 relational database
     //compile 'com.h2database:h2:1.4.181'
     compile fileTree('libs')
+    //scala
+    compile 'org.scala-lang:scala-library:2.11.1' 
     //JFreeChart
     compile 'org.jfree:jfreechart:1.0.19'
     //Log4J
     compile 'org.apache.logging.log4j:log4j-core:2.0.2' 
+    //JSON4S jackson
+    compile 'org.json4s:json4s-jackson_2.11:3.2.11'
     //junit unitary test library
     testCompile group: 'junit', name: 'junit', version: '4.10'
+    
 }
 test {
     testLogging {
@@ -50,5 +55,4 @@ sonar {
     project {
         coberturaReportPath = file("$buildDir/cobertura.xml")
     }
-}
-
+} 
