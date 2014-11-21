@@ -1,6 +1,7 @@
 package cova2.dao;
 
 import cova2.model.anime.Anime;
+import java.io.File;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -22,6 +23,8 @@ public class AnimeDAOTest {
     @Before
     public void initiate() {
         animeDAO = new AnimeDAO();
+        File dir = new File("data" + File.separator + "anime");
+        dir.mkdirs();
     } //end of the test method initiate
 
     /**
@@ -51,7 +54,9 @@ public class AnimeDAOTest {
     @Test
     public void testDeleteAnime() {
         testCreateAnime();
-        assertTrue("Anime was not deleted!", animeDAO.deleteAnime(1));
+        animeDAO.deleteAnime(1);
+        assertTrue("Anime was not deleted!",
+                (new File("data" + File.separator + "anime" + File.separator + "1.json")).exists());
     }//end of the test method testDeleteAnime
 
     /**
