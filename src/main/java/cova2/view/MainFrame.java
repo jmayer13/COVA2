@@ -1,10 +1,13 @@
 package cova2.view;
 
+import cova2.model.index.Index;
 import cova2.util.InternationalizationCentral;
+import cova2.view.tableModel.IndexTableModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import jone.swing.ComponentHack;
 import jone.swing.JProportionFrame;
 import jone.util.GoldenRatioCalculator;
@@ -26,6 +29,8 @@ public class MainFrame {
     //proportion width/height
     private final double PROPORTION = 1.25;
     private JProportionFrame mainFrame;
+    private JTable table;
+    private IndexTableModel _tableModel;
 
     /**
      * Initiate frame and components
@@ -43,6 +48,7 @@ public class MainFrame {
         mainFrame = new JProportionFrame(PROPORTION);
         JMenuBar menuBar = new JMenuBar();
         JTabbedPane tablesPane = new JTabbedPane();
+        table = new JTable();
 
         JButton plusButton = new JButton("+");
         JButton minusButton = new JButton("-");
@@ -81,6 +87,8 @@ public class MainFrame {
         mainFrame.add(editButtonComponentHack);
         mainFrame.add(deleteButtonComponentHack);
 
+        tablesPane.add(table);
+
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }//end of the method startView
 
@@ -104,5 +112,14 @@ public class MainFrame {
     public static void main(String args[]) {
         new MainFrame();
     }//end of the method main
+
+    public void setTableModel(IndexTableModel tableModel) {
+        _tableModel = tableModel;
+        table.setModel(tableModel);
+    }
+
+    public Index getIndex(int row) {
+        return _tableModel.getIndex(row);
+    }
 
 }//end of class MainFrame 

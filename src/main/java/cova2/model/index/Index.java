@@ -16,7 +16,7 @@ public class Index {
     private int _codeAnime;
 
     /**
-     * Contructor with data
+     * Contructor with data for the database
      *
      * @param codeIndex code index (primary key)
      * @param mainTitleAnime main title (title selected)
@@ -26,8 +26,7 @@ public class Index {
         this.setCodeIndex(codeIndex);
         this.setMainTitleAnime(mainTitleAnime);
         this.setCodeAnime(codeAnime);
-
-    }//end of the constructor 
+    }//end of the constructor
 
     /**
      * Define the code index, the primary key of the index DB
