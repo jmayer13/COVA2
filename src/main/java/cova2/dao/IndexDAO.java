@@ -36,16 +36,16 @@ public class IndexDAO {
      * @return <code>Boolean</code>
      * @throws SQLException if SQL script failed
      */
-    public boolean addIndex(Index index) throws SQLException {
-        PreparedStatement registerStatement = _connection.prepareStatement("INSERT INTO index (code_index, main_title, code_anime) VALUES(?,?,?);");
-        registerStatement.setInt(1, index.getCodeIndex());
-        registerStatement.setString(2, index.getMainTitleAnime());
-        registerStatement.setInt(3, index.getCodeAnime());
+    public Index addIndex(Index index) throws SQLException {
+        PreparedStatement registerStatement = _connection.prepareStatement("INSERT INTO index (main_title, code_anime) VALUES(?,?);");
+        registerStatement.setString(1, index.getMainTitleAnime());
+        registerStatement.setInt(2, index.getCodeAnime());
         int lines = registerStatement.executeUpdate();
         if (lines > 0) {
-            return true;
+            index.setCodeIndex(rescueCodeIndex(index));
+            return index;
         } else {
-            return false;
+            return null;
         }
     } //end of method addIndex
 
@@ -86,5 +86,41 @@ public class IndexDAO {
             return false;
         }
     }//end of the method deleteIndex
+
+    /**
+     * Get code recommended to new anime registered (last one +1)
+     *
+     * @return <code>Integer</code> code anime recommended
+     * @throws SQLException
+     */
+    public int getRecommendedCodeAnime() throws SQLException {
+        int recomendedCodeAnime = 1;
+        PreparedStatement maxStatement = _connection.prepareStatement("SELECT MAX(code_anime) FROM index;");
+        ResultSet resultSet = maxStatement.executeQuery();
+        while (resultSet.next()) {
+            recomendedCodeAnime = resultSet.getInt(1);
+            recomendedCodeAnime++;
+        }
+        return recomendedCodeAnime;
+    }//end of the method getRecommendedCodeAnime
+
+    /**
+     * Rescue code Index from index thought the search by name
+     *
+     * @param index
+     * @return
+     * @throws SQLException
+     */
+    protected int rescueCodeIndex(Index index) throws SQLException {
+        PreparedStatement rescueStatement = _connection.prepareStatement("SELECT code_index FROM index WHERE main_title=(?) AND  code_anime = (?) ;");
+        rescueStatement.setString(1, index.getMainTitleAnime());
+        rescueStatement.setInt(2, index.getCodeAnime());
+        ResultSet resultSet = rescueStatement.executeQuery();
+        while (resultSet.next()) {
+            return resultSet.getInt(1);
+
+        }
+        return -1;
+    }//end the method rescueCodeIndex
 
 }//end of class IndexDAO 

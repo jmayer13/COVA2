@@ -37,7 +37,7 @@ public class IndexTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if (columnIndex == this.COLUMN_TITLE_INDEX) {
-            return _indexes.get(rowIndex).getCodeIndex();
+            return _indexes.get(rowIndex).getMainTitleAnime();
         } else {
             return _animes.get(rowIndex).getCurrentEpisode();
         }
@@ -47,8 +47,14 @@ public class IndexTableModel extends AbstractTableModel {
         return _indexes.get(index);
     }
 
+    /**
+     * Get anime of respective line
+     *
+     * @param index line of the table
+     * @return <code>Anime</code> anime
+     */
     public Anime getAnime(int index) {
         return _animes.get(index);
-    }
+    }//end of the method getAnime
 
-}//fim da classe IndexTableModel 
+}//end of the class IndexTableModel 

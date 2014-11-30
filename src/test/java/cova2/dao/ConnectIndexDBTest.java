@@ -29,7 +29,7 @@ public class ConnectIndexDBTest {
      * @throws InvocationTargetException
      */
     @Before
-    public void intenceClass() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void initialize() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Constructor constructors[] = ConnectIndexDB.class.getDeclaredConstructors();
         constructors[0].setAccessible(true);
         connectIndexDB = (ConnectIndexDB) constructors[0].newInstance();
@@ -42,12 +42,12 @@ public class ConnectIndexDBTest {
      * @throws ClassNotFoundException
      */
     @After
-    public void dropDatabase() throws SQLException, ClassNotFoundException {
+    public void testDropDatabase() throws SQLException, ClassNotFoundException {
         connectIndexDB.getConnection();
         connectIndexDB.dropDatabase();
         connectIndexDB.closeConnection();
         connectIndexDB = null;
-    }//end of the method dropDatabase
+    }//end of the method testDropDatabase
 
     /**
      * Check the creation of the database and their existence
@@ -56,13 +56,13 @@ public class ConnectIndexDBTest {
      * @throws ClassNotFoundException
      */
     @Test
-    public void checkDatabaseExistence() throws SQLException, ClassNotFoundException {
+    public void testCheckDatabaseExistence() throws SQLException, ClassNotFoundException {
         connectIndexDB.getConnection();
         connectIndexDB.dropDatabase();
         connectIndexDB.getConnection();
         boolean databaseEmpty = connectIndexDB.isDatabaseReady();
         assertTrue("Could not create database!", databaseEmpty);
-    }//end of method checkDatabaseExistence
+    }//end of method testCheckDatabaseExistence
 
     /**
      * Test the unsafe connection
@@ -71,10 +71,10 @@ public class ConnectIndexDBTest {
      * @throws ClassNotFoundException
      */
     @Test
-    public void connect() throws SQLException, ClassNotFoundException {
+    public void testConnect() throws SQLException, ClassNotFoundException {
         Connection connection = connectIndexDB.getConnection();
         assertNotNull("Could not connect!", connection);
-    }//end of the method connect
+    }//end of the method testConnect
 
     /**
      * Test if close the connection with the database
@@ -83,7 +83,7 @@ public class ConnectIndexDBTest {
      * @throws ClassNotFoundException
      */
     @Test
-    public void closeConnection() throws SQLException, ClassNotFoundException {
+    public void testCloseConnection() throws SQLException, ClassNotFoundException {
         connectIndexDB.getConnection();
         boolean closed = connectIndexDB.closeConnection();
         assertTrue("Could not close connection!", closed);
@@ -96,13 +96,13 @@ public class ConnectIndexDBTest {
      * @throws ClassNotFoundException
      */
     @Test
-    public void createTable() throws SQLException, ClassNotFoundException {
+    public void testCreateTable() throws SQLException, ClassNotFoundException {
         if (connectIndexDB.isDatabaseReady()) {
             connectIndexDB.dropDatabase();
         }
         connectIndexDB.connect();
         connectIndexDB.createTable();
         assertTrue("Could not create table!", connectIndexDB.isDatabaseReady());
-    }//end of the method createTable
+    }//end of the method testCreateTable
 
 }//end of the class ConnectIndexDBTest 

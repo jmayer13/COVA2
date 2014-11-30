@@ -29,6 +29,17 @@ public class Index {
     }//end of the constructor
 
     /**
+     * Contructor with data for the software
+     *
+     * @param mainTitleAnime main title (title selected)
+     * @param codeAnime code anime (key to JSON ad-hoc DB)
+     */
+    public Index(String mainTitleAnime, int codeAnime) {
+        this.setMainTitleAnime(mainTitleAnime);
+        this.setCodeAnime(codeAnime);
+    }//end of the constructor
+
+    /**
      * Define the code index, the primary key of the index DB
      *
      * @param codeIndex

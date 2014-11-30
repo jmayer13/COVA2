@@ -1,5 +1,6 @@
 package cova2.view;
 
+import cova2.model.anime.Anime;
 import cova2.model.index.Index;
 import cova2.util.InternationalizationCentral;
 import cova2.view.tableModel.IndexTableModel;
@@ -108,18 +109,38 @@ public class MainFrame {
         mainFrame.dispose();
     }//end of the method close
 
+    /**
+     * Set tablemodel with data for the table
+     *
+     * @param tableModel IndexTableModel
+     */
+    public void setTableModel(IndexTableModel tableModel) {
+        _tableModel = tableModel;
+        table.setModel(tableModel);
+    }//end of the method setTableModel
+
+    /**
+     * Get index from table
+     *
+     * @param row
+     * @return <code>Index</code>
+     */
+    public Index getIndex(int row) {
+        return _tableModel.getIndex(row);
+    }//end of the method getIndex
+
+    /**
+     * Get anime from table
+     *
+     * @param row
+     * @return <code>Anime</code>
+     */
+    public Anime getAnime(int row) {
+        return _tableModel.getAnime(row);
+    }//end of the method getAnime
+
     //GUI test
     public static void main(String args[]) {
         new MainFrame();
     }//end of the method main
-
-    public void setTableModel(IndexTableModel tableModel) {
-        _tableModel = tableModel;
-        table.setModel(tableModel);
-    }
-
-    public Index getIndex(int row) {
-        return _tableModel.getIndex(row);
-    }
-
 }//end of class MainFrame 

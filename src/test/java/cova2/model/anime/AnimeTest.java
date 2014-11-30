@@ -19,7 +19,7 @@ public class AnimeTest {
      * Initialize the class
      */
     @Before
-    public void initiate() {
+    public void initiaze() {
         anime = new Anime();
     }//end of the test method initiate
 
