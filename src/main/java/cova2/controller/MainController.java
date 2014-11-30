@@ -24,9 +24,26 @@ public class MainController {
      * Constructor initiate view
      */
     public MainController() {
-        mainFrame = new MainFrame();
-
+        startView();
     }//end of constructor
+
+    /**
+     * Stars view
+     */
+    protected void startView() {
+        mainFrame = new MainFrame();
+        List<Index> indexes = null;
+        try {
+            indexes = loadIndexes();
+        } catch (SQLException | ClassNotFoundException ex) {
+            //TO DO log it
+            ex.printStackTrace();
+            System.exit(1);
+        }
+        List<Anime> animes = loadAnimes(indexes);
+        IndexTableModel tableModel = new IndexTableModel(indexes, animes);
+        setTableModel(tableModel);
+    }//end of the method startView
 
     /**
      * Check if view is openned
@@ -37,11 +54,24 @@ public class MainController {
         return mainFrame.isOpen();
     }//end of method isViewOpen
 
+    /**
+     * Load indexes from database with DAO
+     *
+     * @return <code>List</code> indexes
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public List<Index> loadIndexes() throws SQLException, ClassNotFoundException {
         IndexDAO indexDAO = new IndexDAO();
         return indexDAO.getIndexes();
-    }
+    }//end of the method loadIndexes
 
+    /**
+     * Load animes from JSON files thought Indexes
+     *
+     * @param indexes
+     * @return <code>List</code> with animes
+     */
     public List<Anime> loadAnimes(List<Index> indexes) {
         AnimeDAO animeDAO = new AnimeDAO();
         List<Anime> animes = new ArrayList();
@@ -50,14 +80,35 @@ public class MainController {
             animes.add(anime);
         });
         return animes;
-    }
+    }//end of the method loadAnimes
 
+    /**
+     * Set table model to table of view
+     *
+     * @param tableModel #IndexTableModel
+     */
     public void setTableModel(IndexTableModel tableModel) {
         mainFrame.setTableModel(tableModel);
-    }
+    }//end of the method setTableModel
 
+    /**
+     * Get index from table
+     *
+     * @param row
+     * @return <code>Index</code> index
+     */
     public Index getIndexRow(int row) {
         return mainFrame.getIndex(row);
-    }
+    }//end of the method getIndexRow
+
+    /**
+     * Get index from table
+     *
+     * @param row
+     * @return <code>Anime</code> anime
+     */
+    public Anime getAnimeRow(int row) {
+        return mainFrame.getAnime(row);
+    }//end of the method getAnimeRow
 
 }//end of class MainController 

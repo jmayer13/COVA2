@@ -89,7 +89,7 @@ public class ConnectIndexDB {
      */
     public boolean createTable() throws SQLException {
         boolean result;
-        String tableSQL = "CREATE TABLE index (code_index INT PRIMARY KEY, main_title VARCHAR(2000), code_anime INT);";
+        String tableSQL = "CREATE TABLE index (code_index INT AUTO_INCREMENT PRIMARY KEY, main_title VARCHAR(2000), code_anime INT);";
         PreparedStatement tableCreator = _connection.prepareStatement(tableSQL);
         result = tableCreator.execute();
         tableCreator.close();

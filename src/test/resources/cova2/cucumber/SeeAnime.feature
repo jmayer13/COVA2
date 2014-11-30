@@ -3,7 +3,7 @@
     Animes shoud be alphabetically ordered
   
     Scenario: See anime
-       Given I have 1 anime registered
+       Given I have the anime "One Piece" registered, in the episode 600
        When I open the main window
-       Then I should see my animes
-       And the current episodies that I am watching
+       Then I should see the anime "One Piece"
+       And the current episode 600 that I wached

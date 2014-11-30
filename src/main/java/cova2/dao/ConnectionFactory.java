@@ -27,7 +27,8 @@ public class ConnectionFactory {
                     constructors[0].setAccessible(true);
                     _connectionDatabase = (ConnectIndexDB) constructors[0].newInstance();
                 } catch (Exception exception) {
-
+                    exception.printStackTrace();
+                    System.exit(1);
                 }
             }
         }
