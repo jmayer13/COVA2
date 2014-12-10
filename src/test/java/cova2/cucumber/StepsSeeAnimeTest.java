@@ -50,7 +50,7 @@ public class StepsSeeAnimeTest {
     public void the_current_episode_that_I_wached(int currentEpisode) throws Throwable {
         Anime anime = mainController.getAnimeRow(0);
         assertThat(anime.getCurrentEpisode(), is(currentEpisode));
-
+        cleanData();
     }
 
     @After

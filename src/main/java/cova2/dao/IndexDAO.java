@@ -73,10 +73,13 @@ public class IndexDAO {
      * Delete the index
      *
      * @param index
-     * @return
+     * @return boolean result of operation
      * @throws SQLException
      */
     public boolean deleteIndex(Index index) throws SQLException {
+        if (index.getCodeIndex() <= 0) {
+            throw new IllegalArgumentException("Code Index should be biiger that 0!");
+        }
         PreparedStatement deleteStatement = _connection.prepareStatement("DELETE FROM index WHERE code_index = (?);");
         deleteStatement.setInt(1, index.getCodeIndex());
         int lines = deleteStatement.executeUpdate();
@@ -122,5 +125,13 @@ public class IndexDAO {
         }
         return -1;
     }//end the method rescueCodeIndex
+
+    /**
+     * Close connection with database
+     * <b>Warning:<b />throws exception if someone tries use it after closed
+     */
+    public void closeConnection() throws SQLException {
+        _connection.close();
+    }//end of the method closeConnection
 
 }//end of class IndexDAO 

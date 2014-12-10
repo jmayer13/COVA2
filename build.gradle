@@ -30,9 +30,7 @@ dependencies {
     //scala
     compile 'org.scala-lang:scala-library:2.11.1' 
     //JFreeChart
-    compile 'org.jfree:jfreechart:1.0.19'
-    //Log4J
-    compile 'org.apache.logging.log4j:log4j-core:2.0.2' 
+    compile 'org.jfree:jfreechart:1.0.19' 
     //JSON4S jackson
     compile 'org.json4s:json4s-jackson_2.11:3.2.11'
     //junit unitary test library

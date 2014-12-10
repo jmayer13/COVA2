@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.After;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -17,7 +18,16 @@ public class IndexDAOTest {
 
     private IndexDAO indexDAO;
     //index generic for tests
-    private final Index testIndex = new Index("title", 0);
+    private Index testIndex = new Index("title", 0);
+
+    /**
+     * Create data for test
+     */
+    @Before
+    public void initialize() throws SQLException, ClassNotFoundException {
+        indexDAO = new IndexDAO();
+        testIndex = new Index("title", 0);
+    }//end of the method initialize
 
     /**
      * Clean the test data
@@ -26,7 +36,10 @@ public class IndexDAOTest {
      */
     @After
     public void cleanData() throws SQLException {
-        indexDAO.deleteIndex(testIndex);
+        if (testIndex.getCodeIndex() != 0) {
+            indexDAO.deleteIndex(testIndex);
+        }
+        indexDAO.closeConnection();
     }//end of the method cleanData
 
     /**
@@ -37,9 +50,8 @@ public class IndexDAOTest {
      */
     @Test
     public void testAddIdex() throws SQLException, ClassNotFoundException {
-        indexDAO = new IndexDAO();
-        Index index = indexDAO.addIndex(testIndex);
-        assertTrue("Problem when registering Index!", index.getCodeIndex() > 0);
+        testIndex = indexDAO.addIndex(testIndex);
+        assertTrue("Problem when registering Index!", testIndex.getCodeIndex() > 0);
     }//end of method testAddIdex
 
     /**
@@ -60,8 +72,8 @@ public class IndexDAOTest {
      */
     @Test
     public void testGetRecomendedCodeAnime() throws SQLException, ClassNotFoundException {
-        indexDAO = new IndexDAO();
-        indexDAO.addIndex(new Index("test", indexDAO.getRecommendedCodeAnime()));
+        testIndex.setCodeAnime(indexDAO.getRecommendedCodeAnime());
+        testIndex = indexDAO.addIndex(testIndex);
         List<Index> indexes = indexDAO.getIndexes();
         assertTrue("Recommended anime code generated is invalid!", indexes.get(0).getCodeAnime() >= 0);
     }//end of the method testGetRecomendedAnimeCode
@@ -83,11 +95,40 @@ public class IndexDAOTest {
      */
     @Test
     public void testRescueCodeIndex() throws SQLException, ClassNotFoundException {
-        indexDAO = new IndexDAO();
-        Index testIndex = new Index("test", 1000);
+        testIndex = new Index("test", 1000);
         indexDAO.addIndex(testIndex);
         assertTrue("Code rescued is not invalid!", indexDAO.rescueCodeIndex(testIndex) > 0);
 
     }//end of the method testRescueCodeIndex
 
+    /**
+     * Test if index is deleted
+     */
+    @Test
+    public void testDeleteIndex() throws SQLException, ClassNotFoundException {
+        testAddIdex();
+        assertTrue("Could not delete anime!", indexDAO.deleteIndex(testIndex));
+    }//end of the method testDeleteIndex
+
+    /**
+     * Fails in use closed connection
+     *
+     * @throws SQLException
+     */
+    @Test(expected = SQLException.class)
+    public void failUseConnectionAfterClosed() throws SQLException, ClassNotFoundException {
+        indexDAO.closeConnection();
+        indexDAO.getIndexes();
+        indexDAO = new IndexDAO();
+    }//end of the method failUseConnectionAfterClosed
+
+    /**
+     * Fail to delete Index with codeIndex equals to zero
+     *
+     * @throws SQLException
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void failsDeleteZeroCodeIndex() throws SQLException {
+        indexDAO.deleteIndex(testIndex);
+    }//end of the method failsDeleteZeroCodeIndex
 }//end of the class IndexDAOTest

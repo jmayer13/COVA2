@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Connect to the IndexDB
@@ -37,8 +35,8 @@ public class ConnectIndexDB {
         try {
             Class.forName(DRIVE_CLASS);
         } catch (ClassNotFoundException classNotFoundException) {
-            Logger logger = LogManager.getLogger(ConnectIndexDB.class.getName());
-            logger.error("Could not found the IndexDB drive.", classNotFoundException);
+           // Logger logger = LogManager.getLogger(ConnectIndexDB.class.getName());
+            // logger.error("Could not found the IndexDB drive.", classNotFoundException);
         }
     }//end of the constructor
 
@@ -74,8 +72,8 @@ public class ConnectIndexDB {
             if (isDatabaseReady()) {
                 return _connection;
             } else {
-                Logger logger = LogManager.getLogger(ConnectIndexDB.class.getName());
-                logger.error("Could not create database!: SQL script of creation ineffective!");
+              //  Logger logger = LogManager.getLogger(ConnectIndexDB.class.getName());
+                // logger.error("Could not create database!: SQL script of creation ineffective!");
                 throw new SQLException("Could not create database!: SQL script of creation ineffective! ");
             }
         }
@@ -129,8 +127,7 @@ public class ConnectIndexDB {
             _connection = null;
             _connection = DriverManager.getConnection(SAFE_URL, USER_NAME, PASSSWORD);
         } catch (SQLException sqlException) {
-            Logger logger = LogManager.getLogger(ConnectIndexDB.class.getName());
-            logger.warn("Database is not ready.", sqlException);
+
             result = false;
         }
         if (_connection == null) {

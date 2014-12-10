@@ -91,6 +91,7 @@ public class MainFrame {
         tablesPane.add(table);
 
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }//end of the method startView
 
     /**

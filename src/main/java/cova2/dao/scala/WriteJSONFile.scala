@@ -9,7 +9,12 @@ class WriteJSONFile {
    * Write anime's json in json file
    */
   def write(json: String,title: String){
-    val writer = new PrintWriter(new File( "data"+File.separator+"anime",title+".json"));
+    val dir = new File("data"+File.separator+"anime");
+    if(!dir.exists){
+      dir.mkdirs
+    }
+    val file = new File(dir,title+".json");
+    val writer = new PrintWriter(file);
     writer write json;
     writer.close();
   }//end of the method write

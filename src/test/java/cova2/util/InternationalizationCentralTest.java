@@ -19,7 +19,7 @@ public class InternationalizationCentralTest {
      * Initiate class to test
      */
     @Before
-    public void iniciate() {
+    public void iniciaze() {
         internationalizationCentral = new InternationalizationCentral();
     }//end of the method iniciate
 
