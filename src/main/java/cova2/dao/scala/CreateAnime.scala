@@ -1,7 +1,7 @@
 package cova2.dao.scala
-import cova2.model.anime.Anime
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
+import cova2.model.anime.Anime
 import org.json4s.JsonDSL._
 
 /**

@@ -1,6 +1,9 @@
 package cova2.dao;
 
+import cova2.util.LogManager;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import javax.swing.JOptionPane;
 
 /**
  * Manage the creatiuon of instences of connection classes
@@ -26,12 +29,16 @@ public class ConnectionFactory {
                     Constructor constructors[] = ConnectIndexDB.class.getDeclaredConstructors();
                     constructors[0].setAccessible(true);
                     _connectionDatabase = (ConnectIndexDB) constructors[0].newInstance();
-                } catch (Exception exception) {
+                } catch (SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException exception) {
                     exception.printStackTrace();
-                    System.exit(1);
+                    LogManager logManager = new LogManager(ConnectIndexDB.class.getName());
+                    logManager.error("Was not possible create a connection with relational DB", exception);
+                    exception.printStackTrace();
+                    JOptionPane.showMessageDialog(null, exception.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+
                 }
             }
         }
         return _connectionDatabase;
-    }//wnf of method getConnection
+    }//enf of method getConnection
 }//end of class ConnectionFactory 

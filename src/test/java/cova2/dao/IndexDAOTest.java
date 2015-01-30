@@ -1,9 +1,26 @@
+/**
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package cova2.dao;
 
+import cova2.exception.DataAlreadyRegisteredException;
+import cova2.exception.UnavailableDataException;
 import cova2.model.index.Index;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import org.junit.After;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -25,23 +42,65 @@ public class IndexDAOTest {
      */
     @Before
     public void initialize() throws SQLException, ClassNotFoundException {
-        indexDAO = new IndexDAO();
+        indexDAO = new IndexDAO() {
+            private List<Index> indexes = new ArrayList();
+            private int codeIndexCount = 0;
+
+            @Override
+            public int rescueCodeIndex(Index index) {
+                codeIndexCount++;
+                return codeIndexCount;
+            }
+
+            @Override
+            public int getRecommendedCodeAnime() {
+                codeIndexCount++;
+                return codeIndexCount;
+            }
+
+            @Override
+            public void closeConnection() {
+            }
+
+            @Override
+            protected Connection connect() throws SQLException, ClassNotFoundException {
+                return null;
+            }
+
+            public int insertIndex(Index index) {
+                indexes.add(index);
+                return 1;
+            }
+
+            @Override
+            public List<Index> selectIndexes() {
+                return indexes;
+            }
+
+            @Override
+            public void updateIndex(Index index) {
+                for (int i = 0; i < indexes.size(); i++) {
+                    if (indexes.get(i).getCodeIndex() == index.getCodeIndex()) {
+                        indexes.set(i, index);
+                    }
+                }
+            }
+
+            @Override
+            public int deleteIndex(Index index) {
+                indexes.remove(index);
+                return 1;
+            }
+
+        };
         testIndex = new Index("title", 0);
     }//end of the method initialize
 
-    /**
-     * Clean the test data
-     *
-     * @throws SQLException if script don't works
+    /*CREATE
+     -create index
+     -fail null
+     -fail exist
      */
-    @After
-    public void cleanData() throws SQLException {
-        if (testIndex.getCodeIndex() != 0) {
-            indexDAO.deleteIndex(testIndex);
-        }
-        indexDAO.closeConnection();
-    }//end of the method cleanData
-
     /**
      * Test registration of Index
      *
@@ -52,8 +111,24 @@ public class IndexDAOTest {
     public void testAddIdex() throws SQLException, ClassNotFoundException {
         testIndex = indexDAO.addIndex(testIndex);
         assertTrue("Problem when registering Index!", testIndex.getCodeIndex() > 0);
+        indexDAO.deleteIndex(testIndex);
     }//end of method testAddIdex
 
+    @Test(expected = NullPointerException.class)
+    public void failCreateNullIndex() throws SQLException {
+        testIndex = indexDAO.addIndex(null);
+    }
+
+    @Test(expected = DataAlreadyRegisteredException.class)
+    public void faildCreateExistIndex() throws SQLException {
+        testIndex = indexDAO.addIndex(testIndex);
+        testIndex = indexDAO.addIndex(testIndex);
+        indexDAO.deleteIndex(testIndex);
+    }
+
+    /*GET
+     -get indexes
+     */
     /**
      * Test the getting of Indexes
      *
@@ -62,65 +137,25 @@ public class IndexDAOTest {
      */
     @Test
     public void testGetIndexes() throws SQLException, ClassNotFoundException {
-        testAddIdex();
+        testIndex = indexDAO.addIndex(testIndex);
         List<Index> indexes = indexDAO.getIndexes();
         assertNotNull("Coult not get Indexes!", indexes);
     }//end of method testGetIndexes
 
-    /**
-     * Test recomended anime code
+    /*DELETE
+     -delete index
+     -fail null
+     -fail inexistent
+     -invalid
      */
-    @Test
-    public void testGetRecomendedCodeAnime() throws SQLException, ClassNotFoundException {
-        testIndex.setCodeAnime(indexDAO.getRecommendedCodeAnime());
-        testIndex = indexDAO.addIndex(testIndex);
-        List<Index> indexes = indexDAO.getIndexes();
-        assertTrue("Recommended anime code generated is invalid!", indexes.get(0).getCodeAnime() >= 0);
-    }//end of the method testGetRecomendedAnimeCode
-
-    /**
-     * Test recomended anime code with empty database
-     */
-    @Test
-    public void testEmptyGetRecomendedCodeAnime() throws SQLException, ClassNotFoundException {
-        indexDAO = new IndexDAO();
-        assertTrue("Recommended anime code generated with empty database is invalid!", indexDAO.getRecommendedCodeAnime() >= 0);
-    }//end of the method testGetRecomendedAnimeCode
-
-    /**
-     * Test recue the code for the index thought of title and code anime
-     *
-     * @throws SQLException
-     * @throws ClassNotFoundException
-     */
-    @Test
-    public void testRescueCodeIndex() throws SQLException, ClassNotFoundException {
-        testIndex = new Index("test", 1000);
-        indexDAO.addIndex(testIndex);
-        assertTrue("Code rescued is not invalid!", indexDAO.rescueCodeIndex(testIndex) > 0);
-
-    }//end of the method testRescueCodeIndex
-
     /**
      * Test if index is deleted
      */
     @Test
-    public void testDeleteIndex() throws SQLException, ClassNotFoundException {
-        testAddIdex();
-        assertTrue("Could not delete anime!", indexDAO.deleteIndex(testIndex));
+    public void testEraseIndex() throws SQLException, ClassNotFoundException {
+        testIndex = indexDAO.addIndex(testIndex);
+        assertTrue("Could not delete anime!", indexDAO.eraseIndex(testIndex));
     }//end of the method testDeleteIndex
-
-    /**
-     * Fails in use closed connection
-     *
-     * @throws SQLException
-     */
-    @Test(expected = SQLException.class)
-    public void failUseConnectionAfterClosed() throws SQLException, ClassNotFoundException {
-        indexDAO.closeConnection();
-        indexDAO.getIndexes();
-        indexDAO = new IndexDAO();
-    }//end of the method failUseConnectionAfterClosed
 
     /**
      * Fail to delete Index with codeIndex equals to zero
@@ -128,7 +163,49 @@ public class IndexDAOTest {
      * @throws SQLException
      */
     @Test(expected = IllegalArgumentException.class)
-    public void failsDeleteZeroCodeIndex() throws SQLException {
-        indexDAO.deleteIndex(testIndex);
+    public void failsEraseZeroCodeIndex() throws SQLException {
+        indexDAO.eraseIndex(testIndex);
     }//end of the method failsDeleteZeroCodeIndex
+
+    @Test(expected = NullPointerException.class)
+    public void failEraseNullIndex() throws SQLException {
+        indexDAO.eraseIndex(null);
+    }
+
+    @Test(expected = UnavailableDataException.class)
+    public void failEraseUnregisteredData() throws SQLException {
+        testIndex = indexDAO.addIndex(testIndex);
+        indexDAO.eraseIndex(testIndex);
+        indexDAO.eraseIndex(testIndex);
+    }
+    /*EDIT
+     -edit index
+     -null
+     -index that don't exist
+     */
+
+    /**
+     * Test edit index with the index registered
+     *
+     * @throws SQLException
+     */
+    @Test
+    public void testEditIndex() throws SQLException {
+        testIndex = indexDAO.addIndex(testIndex);
+        testIndex.setCodeAnime(5);
+        indexDAO.editIndex(testIndex);
+        assertTrue("The edition was not effective!", indexDAO.getIndexes().get(0).getCodeAnime() == 5);
+        indexDAO.deleteIndex(testIndex);
+    }//end of the method testEditIndex
+
+    @Test(expected = NullPointerException.class)
+    public void failEditNullIndex() throws SQLException {
+        indexDAO.editIndex(null);
+    }
+
+    @Test(expected = UnavailableDataException.class)
+    public void failEditUnexistentIndex() throws SQLException {
+        indexDAO.editIndex(new Index(58, "a", 12));
+    }
+
 }//end of the class IndexDAOTest

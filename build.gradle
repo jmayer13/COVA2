@@ -28,7 +28,7 @@ dependencies {
     //compile 'com.h2database:h2:1.4.181'
     compile fileTree('libs')
     //scala
-    compile 'org.scala-lang:scala-library:2.11.1' 
+    compile 'org.scala-lang:scala-library:2.11.2' 
     //JFreeChart
     compile 'org.jfree:jfreechart:1.0.19' 
     //JSON4S jackson
@@ -61,6 +61,7 @@ sonar {
         coberturaReportPath = file("$buildDir/cobertura.xml")
     }
 } 
-tasks.withType(ScalaCompile) {
-    scalaCompileOptions.useAnt = false
-}
+//
+//tasks.withType(ScalaCompile) {
+//    scalaCompileOptions.useAnt = false
+//}

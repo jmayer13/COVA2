@@ -23,9 +23,9 @@ public class Index {
      * @param codeAnime code anime (key to JSON ad-hoc DB)
      */
     public Index(int codeIndex, String mainTitleAnime, int codeAnime) {
-        this.setCodeIndex(codeIndex);
-        this.setMainTitleAnime(mainTitleAnime);
-        this.setCodeAnime(codeAnime);
+        setCodeIndex(codeIndex);
+        setMainTitleAnime(mainTitleAnime);
+        setCodeAnime(codeAnime);
     }//end of the constructor
 
     /**

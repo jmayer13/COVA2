@@ -20,9 +20,16 @@ public class InternationalizationCentral {
      * Iniciate with default locale
      */
     public InternationalizationCentral() {
+        start();
+    }//end of the constructor
+
+    /**
+     * Start default language
+     */
+    protected void start() {
         currentLocale = new Locale("en", "GL");
         resourceBundle = ResourceBundle.getBundle("lang.language", currentLocale);
-    }//end of the constructor
+    }//end of the method start
 
     /**
      * Get word or sentence in the defined language
@@ -42,4 +49,4 @@ public class InternationalizationCentral {
         return word;
     }//end of the method getWord
 
-}//end pf the class InternationalizationCentral 
+}//end of the class InternationalizationCentral 

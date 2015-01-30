@@ -4,7 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import javax.swing.JOptionPane;
 
 /**
  * Manage strean to write on log file
@@ -24,7 +28,7 @@ public class LogFileStream {
      * @throws FileNotFoundException
      */
     private LogFileStream() throws FileNotFoundException {
-        createPrintWriter();
+
     }//end of the constructor 
 
     /**
@@ -39,9 +43,9 @@ public class LogFileStream {
                     Constructor constructors[] = LogFileStream.class.getDeclaredConstructors();
                     constructors[0].setAccessible(true);
                     _logFileStream = (LogFileStream) constructors[0].newInstance();
-                } catch (Exception exception) {
+                } catch (SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException exception) {
                     exception.printStackTrace();
-                    System.exit(1);
+                    JOptionPane.showMessageDialog(null, exception.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -72,12 +76,14 @@ public class LogFileStream {
      * @throws FileNotFoundException
      */
     private void createPrintWriter() throws FileNotFoundException {
-        File directory = new File("log" + File.separator + "err");
+        File directory = new File("log");
         if (!directory.exists()) {
             directory.mkdirs();
         }
         Instant timestamp = Instant.now();
-        File log = new File(directory, timestamp.toString());
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(timestamp, ZoneId.systemDefault());
+        String dateTitle = localDateTime.getDayOfMonth() + "_" + localDateTime.getMonth().name() + "_" + localDateTime.getYear() + "_" + localDateTime.getHour() + "_" + localDateTime.getMinute();
+        File log = new File(directory, dateTitle);
         printWriter = new PrintWriter(log);
     }//end of the method createPrintWriter
 

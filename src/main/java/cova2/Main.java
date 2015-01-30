@@ -1,22 +1,97 @@
+/**
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package cova2;
 
 import cova2.controller.MainController;
+import cova2.util.LogManager;
+import javax.swing.JOptionPane;
 
+/**
+ * Main class
+ *
+ * @author Jonas Mayer (jonas.mayer.developer@gmail.com)
+ */
 public class Main {
 
+    private LogManager logManager;
+
     /**
+     * Constructor empty
+     */
+    public Main() {
+        logManager = new LogManager(Main.class.getName());
+    }//end of the constructor
+
+    /**
+     * Main method
+     *
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       // SmokeTests smokeTests = new SmokeTests();
+        Main main = new Main();
+        main.startMain();
+    }//end of the method main
 
-        //if (smokeTests.isSingleInstance()) {
-        //  Updater updater = new Updater();
-        //if (updater.getWillUpdate()) {
-        //} else {
-        MainController mainController = new MainController();
-        //}
-        //}
+    /**
+     * Do the smoke tests
+     *
+     * @return <code>Boolean</code> result of the test
+     */
+    protected boolean doSmokeTests() {
+        SmokeTests smokeTests = new SmokeTests();
+        if (!smokeTests.hasFilePermission()) {
+            JOptionPane.showMessageDialog(null, "I don't have permission to read/write files!", "WARNING!", JOptionPane.WARNING_MESSAGE);
+            System.exit(1);
+        }
+        if (smokeTests.isSingleInstance()) {
+            return true;
+        } else {
+            return false;
+        }
+    }//end of the method doSmokeTests
 
-    }
-}
+    /**
+     * Check if update is avaliable and update
+     *
+     * @return <code>Boolean</code> false if don't have update
+     */
+    protected boolean doUpdateCheck() {
+        UpdateCheck updateCheck = new UpdateCheck();
+        if (updateCheck.hasUpdate()) {
+            return true;
+        } else {
+            return false;
+        }
+    }//end of the method doUpdateCheck
+
+    /**
+     * Start main
+     *
+     * @return <code>Boolean</code> success?
+     */
+    public boolean startMain() {
+        logManager.info("Running...");
+        logManager.debug("Smoke Testing ...");
+        if (doSmokeTests()) {
+            logManager.debug("Verifing updates...");
+            if (!doUpdateCheck()) {
+                logManager.info("Starting...");
+                MainController mainController = new MainController();
+                return true;
+            }
+        }
+        return false;
+    }//end of the method startMain
+}//end of the class Main

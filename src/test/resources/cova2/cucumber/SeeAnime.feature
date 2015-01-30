@@ -1,5 +1,5 @@
  Feature: See animes
-    Animes should be displayed with respective episodes
+    Anime should not exist in the be displayed with respective episodes
     Animes shoud be alphabetically ordered
   
     Scenario: See anime

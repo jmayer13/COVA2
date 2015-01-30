@@ -9,7 +9,7 @@ package cova2.model.anime;
 public class Anime {
 
     private int _codeAnime;
-    private int _currentEpisode;
+    private double _currentEpisode;
 
     /**
      * Set the code of the anime
@@ -25,7 +25,7 @@ public class Anime {
      *
      * @param currentEpisode last episode wached
      */
-    public void setCurrentEpisode(int currentEpisode) {
+    public void setCurrentEpisode(double currentEpisode) {
         _currentEpisode = currentEpisode;
     }//end of the method setCurrentEpisode
 
@@ -41,9 +41,9 @@ public class Anime {
     /**
      * Get current episode
      *
-     * @return <code>Integer</code> current episode
+     * @return <code>Double</code> current episode
      */
-    public int getCurrentEpisode() {
+    public double getCurrentEpisode() {
         return _currentEpisode;
     }//end of the method getCurrentEpisode
 

@@ -11,7 +11,7 @@ class SearchAnime {
   /**
    * Search anime by code
    */
-  def searchCodeAnime (codigoAnime : String): Anime = {
+  def searchCodeAnime (codigoAnime : String): Anime ={
     val readJSON = new ReadJSONFile();
     val file = readJSON.read(codigoAnime);
     val json = parse(file.mkString);
@@ -22,7 +22,7 @@ class SearchAnime {
     val current_episode =(json \ "current_episode").extract[Int]
     anime.setCodeAnime(code_anime);
     anime.setCurrentEpisode(current_episode);
-    return anime;
+    anime;
   }//end of the method searchCodeAnime
 }//end of the class SearchAnime
 
