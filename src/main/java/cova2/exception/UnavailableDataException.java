@@ -22,4 +22,8 @@ package cova2.exception;
  */
 public class UnavailableDataException extends Exception {
 
+    public UnavailableDataException() {
+        super();
+    }
+
 }//fim da classe UnavailableDataException 

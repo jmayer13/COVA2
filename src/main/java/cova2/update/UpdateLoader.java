@@ -37,11 +37,15 @@ public class UpdateLoader {
     }
 
     public boolean isUpdateAvaliable() throws MalformedURLException, IOException {
-        URL url = new URL("https://github.com/jmayer13/COVA2/blob/master/currentVersion.txt");
-        InputStream inputStream = url.openStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        Stream<String> higherVersion = reader.lines().filter(line -> isVersionHigher(line));
-        return higherVersion.findAny().isPresent();
+        try {
+            URL url = new URL("https://github.com/jmayer13/COVA2/raw/master/bin/version.txt");
+            InputStream inputStream = url.openStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            Stream<String> higherVersion = reader.lines().filter(line -> isVersionHigher(line));
+            return higherVersion.findAny().isPresent();
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     public boolean isVersionHigher(String repoVersionString) {

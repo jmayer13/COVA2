@@ -16,6 +16,8 @@ package cova2.controller;
 
 import cova2.dao.AnimeDAO;
 import cova2.dao.IndexDAO;
+import cova2.exception.DataAlreadyRegisteredException;
+import cova2.exception.UnavailableDataException;
 import cova2.model.anime.Anime;
 import cova2.model.index.Index;
 import cova2.util.InternationalizationCentral;
@@ -25,6 +27,8 @@ import cova2.util.Observer;
 import cova2.util.Subject;
 import cova2.view.MainView;
 import cova2.view.tableModel.IndexTableModel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +96,17 @@ public class MainController implements Observer {
             } else {
                 InternationalizationCentral inter = new InternationalizationCentral();
                 JOptionPane.showMessageDialog(null, inter.getWord("select_row_message"), inter.getWord("attention"), JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    closeView();
+                } catch (SQLException | ClassNotFoundException ex) {
+                    logManager.error("Error closing COVA ", ex);
+                    ex.printStackTrace();
+                }
             }
         });
     }//end of constructor
@@ -259,7 +274,12 @@ public class MainController implements Observer {
     public void decreaseEpisode(Anime animeRow) {
         logManager.info("Decresing anime current episode...");
         AnimeDAO animeDAO = new AnimeDAO();
-        animeDAO.decreaseEpisode(animeRow);
+        try {
+            animeDAO.decreaseEpisode(animeRow);
+        } catch (DataAlreadyRegisteredException | UnavailableDataException ex) {
+            logManager.error("Error editing anime!", ex);
+            ex.printStackTrace();
+        }
         updateData();
     }
 
@@ -268,7 +288,15 @@ public class MainController implements Observer {
         logManager.info("Incresing anime current episode...");
 
         AnimeDAO animeDAO = new AnimeDAO();
-        animeDAO.increaseEpisode(animeRow);
+        try {
+            animeDAO.increaseEpisode(animeRow);
+        } catch (DataAlreadyRegisteredException ex) {
+            logManager.error("Error editing anime!", ex);
+            ex.printStackTrace();
+        } catch (UnavailableDataException ex) {
+            logManager.error("Error editing anime!", ex);
+            ex.printStackTrace();
+        }
         updateData();
     }
 
@@ -292,7 +320,7 @@ public class MainController implements Observer {
             Anime anime = animeDAO.readAnime(indexRegistered.getCodeAnime());
             animeDAO.eraseAnime(anime);
             updateData();
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException | UnavailableDataException ex) {
             logManager.error("Error deleting data", ex);
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);

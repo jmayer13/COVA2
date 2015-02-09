@@ -14,15 +14,13 @@
  */
 package cova2.controller;
 
-import cova2.dao.AnimeDAO;
-import cova2.dao.IndexDAO;
+import cova2.exception.DataAlreadyRegisteredException;
 import cova2.model.anime.Anime;
 import cova2.model.index.Index;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,25 +44,23 @@ public class MainControllerTest {
      * @throws java.lang.ClassNotFoundException
      */
     @Before
-    public void initiaze() throws SQLException, ClassNotFoundException {
+    public void initiaze() throws SQLException, ClassNotFoundException, DataAlreadyRegisteredException {
         testIndexes = new ArrayList();
         testAnimes = new ArrayList();
         //set some data
         Index onePieceIndex = new Index("One Piece", 21);
+        onePieceIndex.setCodeIndex(1);
         Anime onePieceAnime = new Anime();
         onePieceAnime.setCodeAnime(21);
         onePieceAnime.setCurrentEpisode(600);
         Index genshikenIndex = new Index("Genshiken", 240);
+        genshikenIndex.setCodeIndex(2);
         Anime genAnime = new Anime();
         genAnime.setCodeAnime(240);
         genAnime.setCurrentEpisode(2);
 
-        IndexDAO indexDAO = new IndexDAO();
-        testIndexes.add(indexDAO.addIndex(onePieceIndex));
-        testIndexes.add(indexDAO.addIndex(genshikenIndex));
-        AnimeDAO animeDAO = new AnimeDAO();
-        animeDAO.createAnime(onePieceAnime);
-        animeDAO.createAnime(genAnime);
+        testIndexes.add(onePieceIndex);
+        testIndexes.add(genshikenIndex);
         testAnimes.add(onePieceAnime);
         testAnimes.add(genAnime);
         mainController = new MainController() {
@@ -105,7 +101,7 @@ public class MainControllerTest {
             public void deleteAnime(Index indexRegistered) {
                 testIndexes.remove(indexRegistered);
                 for (int i = 0; i > testAnimes.size(); i++) {
-                    if (testAnimes.get(i).getCodeAnime() == indexRegistered.getCodeIndex()) {
+                    if (testAnimes.get(i).getCodeAnime() == indexRegistered.getCodeAnime()) {
                         testAnimes.remove(i);
                     }
                 }
@@ -121,10 +117,11 @@ public class MainControllerTest {
 
     @Test
     public void testUpdateData() {
-        int sizeBefore = testIndexes.size();
+        Index index = testIndexes.get(0);
         testIndexes.remove(0);
         mainController.updateData();
-        assertNull("This element should be null!", mainController.getIndexRow(sizeBefore));
+        assertFalse("This element should be here!", mainController.getIndexRow(0).getCodeIndex()
+                == index.getCodeIndex());
     }
 
     @Test
@@ -192,7 +189,8 @@ public class MainControllerTest {
      */
     @Test
     public void testDeleteRow() throws SQLException, ClassNotFoundException {
-        mainController.deleteAnime(testIndexes.get(testIndexes.size() - 1));
-        assertNull("The anime was not deleted", mainController.getIndexRow(testIndexes.size() - 1));
+        Index index = testIndexes.get(testIndexes.size() - 1);
+        mainController.deleteAnime(index);
+        assertFalse("The anime was not deleted", mainController.getIndexRow(testIndexes.size() - 1).getCodeIndex() == index.getCodeIndex());
     }//end of the method testDeleteRow
 }//end of class MainControllerTest 

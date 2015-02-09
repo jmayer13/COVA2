@@ -14,6 +14,8 @@
  */
 package cova2.dao;
 
+import cova2.exception.DataAlreadyRegisteredException;
+import cova2.exception.UnavailableDataException;
 import cova2.model.index.Index;
 import cova2.util.LogManager;
 import java.sql.Connection;
@@ -61,8 +63,11 @@ public class IndexDAO {
      * @return <code>Boolean</code>
      * @throws SQLException if SQL script failed
      */
-    public Index addIndex(Index index) throws SQLException {
+    public Index addIndex(Index index) throws SQLException, DataAlreadyRegisteredException {
         logManager.debug("Add Index " + index.getMainTitleAnime() + "with codeAnime " + index.getCodeAnime());
+        if (selectIndex(index.getCodeIndex()) != null) {
+            throw new DataAlreadyRegisteredException();
+        }
         int lines = insertIndex(index);
         logManager.debug("Index Added");
         if (lines > 0) {
@@ -94,10 +99,13 @@ public class IndexDAO {
      * @return boolean result of operation
      * @throws SQLException
      */
-    public boolean eraseIndex(Index index) throws SQLException {
+    public boolean eraseIndex(Index index) throws SQLException, UnavailableDataException {
         if (index.getCodeIndex() <= 0) {
             logManager.error("Delleting Index... CodeIndex invalid");
             throw new IllegalArgumentException("Code Index should be biiger that 0!");
+        }
+        if (selectIndex(index.getCodeIndex()) == null) {
+            throw new UnavailableDataException();
         }
         logManager.debug("Index " + index.getCodeIndex() + " deleted");
         int lines = deleteIndex(index);
@@ -120,6 +128,8 @@ public class IndexDAO {
             recomendedCodeAnime = resultSet.getInt(1);
             recomendedCodeAnime++;
         }
+        resultSet.close();
+        maxStatement.close();
         logManager.debug("The codeAnime recommended is " + recomendedCodeAnime);
         return recomendedCodeAnime;
     }//end of the method getRecommendedCodeAnime
@@ -136,13 +146,18 @@ public class IndexDAO {
         rescueStatement.setString(1, index.getMainTitleAnime());
         rescueStatement.setInt(2, index.getCodeAnime());
         ResultSet resultSet = rescueStatement.executeQuery();
+        int codeIndex = -1;
         while (resultSet.next()) {
             logManager.debug("The codeIndex of this index is " + resultSet.getInt(1));
-            return resultSet.getInt(1);
+
+            codeIndex = resultSet.getInt(1);
         }
+
+        resultSet.close();
+        rescueStatement.close();
         logManager.error("Was not possible get the codeIndex");
 
-        return -1;
+        return codeIndex;
     }//end the method rescueCodeIndex
 
     /**
@@ -153,15 +168,19 @@ public class IndexDAO {
      */
     public void closeConnection() throws SQLException {
         logManager.debug("Close connection of IndexDAO");
-        _connection.close();
+        ConnectIndexDB connectIndexDB = ConnectionFactory.getConnection();
+        connectIndexDB.closeConnection();
+
     }//end of the method closeConnection
 
-    public void editIndex(Index index) throws SQLException {
+    public void editIndex(Index index) throws SQLException, UnavailableDataException {
         if (index.getCodeIndex() <= 0) {
             throw new NullPointerException("The codeIndex is lower than 1");
         }
         logManager.debug("Edit Index " + index.getMainTitleAnime() + "with codeAnime " + index.getCodeAnime());
-
+        if (selectIndex(index.getCodeIndex()) == null) {
+            throw new UnavailableDataException();
+        }
         updateIndex(index);
 
         logManager.debug("Index Edited");
@@ -172,7 +191,10 @@ public class IndexDAO {
         PreparedStatement registerStatement = _connection.prepareStatement("INSERT INTO index (main_title, code_anime) VALUES(?,?);");
         registerStatement.setString(1, index.getMainTitleAnime());
         registerStatement.setInt(2, index.getCodeAnime());
-        return registerStatement.executeUpdate();
+
+        int result = registerStatement.executeUpdate();
+        registerStatement.close();
+        return result;
     }
 
     protected List<Index> selectIndexes() throws SQLException {
@@ -186,7 +208,25 @@ public class IndexDAO {
             Index index = new Index(codeIndex, titleAnime, codeAnime);
             indexes.add(index);
         }
+        resultSet.close();
+        searchStatement.close();
         return indexes;
+    }
+
+    protected Index selectIndex(int codeIndex) throws SQLException {
+        Index index = null;
+        PreparedStatement searchStatement = _connection.prepareStatement("SELECT   main_title, code_anime FROM index WHERE code_index = (?);");
+        searchStatement.setInt(1, codeIndex);
+        ResultSet resultSet = searchStatement.executeQuery();
+        while (resultSet.next()) {
+            String titleAnime = resultSet.getString(1);
+            int codeAnime = resultSet.getInt(2);
+            index = new Index(codeIndex, titleAnime, codeAnime);
+
+        }
+        resultSet.close();
+        searchStatement.close();
+        return index;
     }
 
     protected void updateIndex(Index index) throws SQLException {
@@ -195,12 +235,14 @@ public class IndexDAO {
         editerStatement.setInt(2, index.getCodeAnime());
         editerStatement.setInt(3, index.getCodeIndex());
         editerStatement.executeUpdate();
+        editerStatement.close();
     }
 
     protected int deleteIndex(Index index) throws SQLException {
         PreparedStatement deleteStatement = _connection.prepareStatement("DELETE FROM index WHERE code_index = (?);");
         deleteStatement.setInt(1, index.getCodeIndex());
         int lines = deleteStatement.executeUpdate();
+        deleteStatement.close();
         return lines;
     }
 

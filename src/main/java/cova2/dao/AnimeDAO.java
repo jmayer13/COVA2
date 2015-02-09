@@ -17,6 +17,8 @@ package cova2.dao;
 import cova2.dao.scala.CreateAnime;
 import cova2.dao.scala.DeleteAnime;
 import cova2.dao.scala.SearchAnime;
+import cova2.exception.DataAlreadyRegisteredException;
+import cova2.exception.UnavailableDataException;
 import cova2.model.anime.Anime;
 import cova2.util.LogManager;
 
@@ -42,8 +44,14 @@ public class AnimeDAO {
      *
      * @param anime anime to be stored
      */
-    public void createAnime(Anime anime) {
+    public void createAnime(Anime anime) throws DataAlreadyRegisteredException {
         logManager.info("Creating anime ...");
+        if (anime == null) {
+            throw new NullPointerException("The Anime is null!");
+        }
+        if (selectAnime(anime.getCodeAnime()) != null) {
+            throw new DataAlreadyRegisteredException();
+        }
         insertAnime(anime);
     }//end of the method createAnime
 
@@ -63,23 +71,35 @@ public class AnimeDAO {
      *
      * @param codeAnime code of the anime to be deleted
      */
-    public void eraseAnime(Anime anime) {
+    public void eraseAnime(Anime anime) throws UnavailableDataException {
         logManager.info("Deleting anime with code " + anime.getCodeAnime());
+        if (selectAnime(anime.getCodeAnime()) == null) {
+            throw new UnavailableDataException();
+        }
         deleteAnime(anime);
     }//end of the method deleteAnime
 
-    public void editAnime(Anime anime) {
+    public void editAnime(Anime anime) throws DataAlreadyRegisteredException, UnavailableDataException {
         logManager.info("Editing anime ...");
+        if (anime == null) {
+            throw new NullPointerException("The Anime is null!");
+        }
+        if (selectAnime(anime.getCodeAnime()) == null) {
+            throw new UnavailableDataException();
+        }
         updateAnime(anime);
     }
 
-    public void increaseEpisode(Anime anime) {
+    public void increaseEpisode(Anime anime) throws DataAlreadyRegisteredException, UnavailableDataException {
         double episode = anime.getCurrentEpisode() + 1;
         anime.setCurrentEpisode(episode);
+        if (selectAnime(anime.getCodeAnime()) == null) {
+            throw new UnavailableDataException();
+        }
         editAnime(anime);
     }
 
-    public void decreaseEpisode(Anime anime) {
+    public void decreaseEpisode(Anime anime) throws DataAlreadyRegisteredException, UnavailableDataException {
         double episode = anime.getCurrentEpisode();
         if (episode < 0) {
             episode = -1;
@@ -87,6 +107,9 @@ public class AnimeDAO {
             episode--;
         }
         anime.setCurrentEpisode(episode);
+        if (selectAnime(anime.getCodeAnime()) == null) {
+            throw new UnavailableDataException();
+        }
         editAnime(anime);
     }
 
@@ -96,11 +119,15 @@ public class AnimeDAO {
     }
 
     protected Anime selectAnime(int codeAnime) {
-        SearchAnime searchAnime = new SearchAnime();
-        return searchAnime.searchCodeAnime(String.valueOf(codeAnime));
+        try {
+            SearchAnime searchAnime = new SearchAnime();
+            return searchAnime.searchCodeAnime(String.valueOf(codeAnime));
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
-    protected void updateAnime(Anime anime) {
+    protected void updateAnime(Anime anime) throws DataAlreadyRegisteredException {
         DeleteAnime deleteAnime = new DeleteAnime();
         deleteAnime.delete(String.valueOf(anime.getCodeAnime()));
         createAnime(anime);

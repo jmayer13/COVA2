@@ -9,11 +9,11 @@ package cova2.model.index;
 public class Index {
 
     //code index represents the primary key of the relational DB
-    private int _codeIndex;
+    private int _codeIndex = -1;
     //main title is the title selected to be showed in the list
     private String _mainTitleAnime;
     //code that represent the anime code of the JSON ad-hoc DB
-    private int _codeAnime;
+    private int _codeAnime = -1;
 
     /**
      * Contructor with data for the database

@@ -20,7 +20,6 @@ import cova2.model.anime.Anime;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -79,7 +78,7 @@ public class AnimeDAOTest {
      * Test the creation of animes
      */
     @Test
-    public void testCreateAnime() {
+    public void testCreateAnime() throws DataAlreadyRegisteredException {
         Anime anime = new Anime();
         anime.setCodeAnime(1);
         anime.setCurrentEpisode(42);
@@ -92,7 +91,7 @@ public class AnimeDAOTest {
      * Fail to create anime with null anime
      */
     @Test(expected = NullPointerException.class)
-    public void failNullCreateAnime() {
+    public void failNullCreateAnime() throws DataAlreadyRegisteredException {
         animeDAO.createAnime(null);
     }//end of the method failNullCreateAnime
 
@@ -100,7 +99,7 @@ public class AnimeDAOTest {
      * Fails registering an anime twice
      */
     @Test(expected = DataAlreadyRegisteredException.class)
-    public void failExistingCreateAnime() {
+    public void failExistingCreateAnime() throws DataAlreadyRegisteredException {
         Anime anime = new Anime();
         anime.setCodeAnime(1);
         anime.setCurrentEpisode(42);
@@ -133,7 +132,8 @@ public class AnimeDAOTest {
      */
     @Test(expected = NullPointerException.class)
     public void failNullReadAnime() {
-        Anime animeReaded = animeDAO.readAnime(1);
+        Anime animeReaded = animeDAO.readAnime(100008);
+        animeReaded.getCodeAnime();
     }//end of the test method testReadAnime
 
     /*ERASE
@@ -145,20 +145,20 @@ public class AnimeDAOTest {
      * Test if erase the anime created
      */
     @Test
-    public void testEraseAnime() {
+    public void testEraseAnime() throws UnavailableDataException {
         Anime anime = new Anime();
         anime.setCodeAnime(1);
         anime.setCurrentEpisode(42);
         animeDAO.insertAnime(anime);
         animeDAO.eraseAnime(anime);
-        assertFalse("Anime was not deleted!", animeDAO.selectAnime(1) == null);
+        assertTrue("Anime was not deleted!", animeDAO.selectAnime(1) == null);
     }//end of the test method testEraseAnime
 
     /**
      * Test if erase the anime created
      */
     @Test(expected = UnavailableDataException.class)
-    public void failsEraseInvalidAnime() {
+    public void failsEraseInvalidAnime() throws UnavailableDataException {
         Anime anime = new Anime();
         anime.setCodeAnime(1);
         anime.setCurrentEpisode(42);
@@ -171,7 +171,7 @@ public class AnimeDAOTest {
      * Test if erase the anime created
      */
     @Test(expected = NullPointerException.class)
-    public void failsEraseNullAnime() {
+    public void failsEraseNullAnime() throws UnavailableDataException {
         animeDAO.eraseAnime(null);
     }//end of the test method failsEraseNullAnime
 
@@ -184,7 +184,7 @@ public class AnimeDAOTest {
      * Test edit anime
      */
     @Test
-    public void testEditAnime() {
+    public void testEditAnime() throws DataAlreadyRegisteredException, UnavailableDataException {
         Anime anime = new Anime();
         anime.setCodeAnime(1);
         anime.setCurrentEpisode(0);
@@ -198,9 +198,9 @@ public class AnimeDAOTest {
      * Test if erase the anime created
      */
     @Test(expected = UnavailableDataException.class)
-    public void failsEditInvalidAnime() {
+    public void failsEditInvalidAnime() throws DataAlreadyRegisteredException, UnavailableDataException {
         Anime anime = new Anime();
-        anime.setCodeAnime(1);
+        anime.setCodeAnime(500);
         anime.setCurrentEpisode(42);
         animeDAO.editAnime(anime);
     }//end of the test method failsEditInvalidAnime
@@ -209,7 +209,7 @@ public class AnimeDAOTest {
      * Test if erase the anime created
      */
     @Test(expected = NullPointerException.class)
-    public void failsEditNullAnime() {
+    public void failsEditNullAnime() throws DataAlreadyRegisteredException, UnavailableDataException {
         animeDAO.editAnime(null);
     }//end of the test method failsEditInvalidAnime
 
@@ -222,7 +222,7 @@ public class AnimeDAOTest {
      * Test increase episode
      */
     @Test
-    public void testIncreaseEpisode() {
+    public void testIncreaseEpisode() throws DataAlreadyRegisteredException, UnavailableDataException {
         Anime anime = new Anime();
         anime.setCodeAnime(1);
         anime.setCurrentEpisode(0);
@@ -236,7 +236,7 @@ public class AnimeDAOTest {
      * Test devrease episode
      */
     @Test
-    public void testDecreaseEpisode() {
+    public void testDecreaseEpisode() throws DataAlreadyRegisteredException, UnavailableDataException {
         Anime anime = new Anime();
         anime.setCodeAnime(1);
         anime.setCurrentEpisode(0);
@@ -250,7 +250,7 @@ public class AnimeDAOTest {
      * Test limited decrease episode
      */
     @Test
-    public void testLimitDecreaseEpisode() {
+    public void testLimitDecreaseEpisode() throws DataAlreadyRegisteredException, UnavailableDataException {
         Anime anime = new Anime();
         anime.setCodeAnime(1);
         anime.setCurrentEpisode(0);
@@ -269,7 +269,7 @@ public class AnimeDAOTest {
      * Fails increase with null
      */
     @Test(expected = NullPointerException.class)
-    public void failEmptyIncreaseEpisode() {
+    public void failEmptyIncreaseEpisode() throws DataAlreadyRegisteredException, UnavailableDataException {
         animeDAO.increaseEpisode(null);
     }//end of the method
 
@@ -277,7 +277,7 @@ public class AnimeDAOTest {
      * Fails decrease with null
      */
     @Test(expected = NullPointerException.class)
-    public void failEmptyDecreaseEpisode() {
+    public void failEmptyDecreaseEpisode() throws DataAlreadyRegisteredException, UnavailableDataException {
         animeDAO.decreaseEpisode(null);
     }//end of the method failEmptyDecreaseEpisode
 
@@ -285,7 +285,7 @@ public class AnimeDAOTest {
      * Fail increase with invalid episode
      */
     @Test(expected = UnavailableDataException.class)
-    public void failInvalidIncreaseEpisode() {
+    public void failInvalidIncreaseEpisode() throws DataAlreadyRegisteredException, UnavailableDataException {
         Anime anime = new Anime();
         anime.setCodeAnime(0);
         animeDAO.increaseEpisode(anime);
@@ -293,9 +293,11 @@ public class AnimeDAOTest {
 
     /**
      * Fail dencrease with invalid episode
+     *
+     * @throws cova2.exception.DataAlreadyRegisteredException
      */
     @Test(expected = UnavailableDataException.class)
-    public void failInvalidDecreaseEpisode() {
+    public void failInvalidDecreaseEpisode() throws DataAlreadyRegisteredException, UnavailableDataException {
         Anime anime = new Anime();
         anime.setCodeAnime(0);
         animeDAO.decreaseEpisode(anime);

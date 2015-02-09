@@ -92,6 +92,16 @@ public class IndexDAOTest {
                 return 1;
             }
 
+            @Override
+            public Index selectIndex(int codeIndex) {
+                for (int i = 0; i < indexes.size(); i++) {
+                    if (indexes.get(i).getCodeIndex() == codeIndex) {
+                        return indexes.get(i);
+                    }
+                }
+                return null;
+            }
+
         };
         testIndex = new Index("title", 0);
     }//end of the method initialize
@@ -108,19 +118,19 @@ public class IndexDAOTest {
      * @throws java.lang.ClassNotFoundException
      */
     @Test
-    public void testAddIdex() throws SQLException, ClassNotFoundException {
+    public void testAddIdex() throws SQLException, ClassNotFoundException, DataAlreadyRegisteredException {
         testIndex = indexDAO.addIndex(testIndex);
         assertTrue("Problem when registering Index!", testIndex.getCodeIndex() > 0);
         indexDAO.deleteIndex(testIndex);
     }//end of method testAddIdex
 
     @Test(expected = NullPointerException.class)
-    public void failCreateNullIndex() throws SQLException {
+    public void failCreateNullIndex() throws SQLException, DataAlreadyRegisteredException {
         testIndex = indexDAO.addIndex(null);
     }
 
     @Test(expected = DataAlreadyRegisteredException.class)
-    public void faildCreateExistIndex() throws SQLException {
+    public void faildCreateExistIndex() throws SQLException, DataAlreadyRegisteredException {
         testIndex = indexDAO.addIndex(testIndex);
         testIndex = indexDAO.addIndex(testIndex);
         indexDAO.deleteIndex(testIndex);
@@ -136,7 +146,7 @@ public class IndexDAOTest {
      * @throws java.lang.ClassNotFoundException
      */
     @Test
-    public void testGetIndexes() throws SQLException, ClassNotFoundException {
+    public void testGetIndexes() throws SQLException, ClassNotFoundException, DataAlreadyRegisteredException {
         testIndex = indexDAO.addIndex(testIndex);
         List<Index> indexes = indexDAO.getIndexes();
         assertNotNull("Coult not get Indexes!", indexes);
@@ -152,7 +162,7 @@ public class IndexDAOTest {
      * Test if index is deleted
      */
     @Test
-    public void testEraseIndex() throws SQLException, ClassNotFoundException {
+    public void testEraseIndex() throws SQLException, ClassNotFoundException, DataAlreadyRegisteredException, UnavailableDataException {
         testIndex = indexDAO.addIndex(testIndex);
         assertTrue("Could not delete anime!", indexDAO.eraseIndex(testIndex));
     }//end of the method testDeleteIndex
@@ -163,17 +173,17 @@ public class IndexDAOTest {
      * @throws SQLException
      */
     @Test(expected = IllegalArgumentException.class)
-    public void failsEraseZeroCodeIndex() throws SQLException {
+    public void failsEraseZeroCodeIndex() throws SQLException, UnavailableDataException {
         indexDAO.eraseIndex(testIndex);
     }//end of the method failsDeleteZeroCodeIndex
 
     @Test(expected = NullPointerException.class)
-    public void failEraseNullIndex() throws SQLException {
+    public void failEraseNullIndex() throws SQLException, UnavailableDataException {
         indexDAO.eraseIndex(null);
     }
 
     @Test(expected = UnavailableDataException.class)
-    public void failEraseUnregisteredData() throws SQLException {
+    public void failEraseUnregisteredData() throws SQLException, DataAlreadyRegisteredException, UnavailableDataException {
         testIndex = indexDAO.addIndex(testIndex);
         indexDAO.eraseIndex(testIndex);
         indexDAO.eraseIndex(testIndex);
@@ -190,7 +200,7 @@ public class IndexDAOTest {
      * @throws SQLException
      */
     @Test
-    public void testEditIndex() throws SQLException {
+    public void testEditIndex() throws SQLException, DataAlreadyRegisteredException, UnavailableDataException {
         testIndex = indexDAO.addIndex(testIndex);
         testIndex.setCodeAnime(5);
         indexDAO.editIndex(testIndex);
@@ -199,12 +209,12 @@ public class IndexDAOTest {
     }//end of the method testEditIndex
 
     @Test(expected = NullPointerException.class)
-    public void failEditNullIndex() throws SQLException {
+    public void failEditNullIndex() throws SQLException, UnavailableDataException {
         indexDAO.editIndex(null);
     }
 
     @Test(expected = UnavailableDataException.class)
-    public void failEditUnexistentIndex() throws SQLException {
+    public void failEditUnexistentIndex() throws SQLException, UnavailableDataException {
         indexDAO.editIndex(new Index(58, "a", 12));
     }
 

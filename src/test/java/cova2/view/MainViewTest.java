@@ -17,6 +17,8 @@ package cova2.view;
 import cova2.model.anime.Anime;
 import cova2.model.index.Index;
 import cova2.view.tableModel.IndexTableModel;
+import java.util.ArrayList;
+import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -30,12 +32,32 @@ import org.junit.Test;
 public class MainViewTest {
 
     private MainView mainFrame;
+    private List<Index> testIndexes;
+    private List<Anime> testAnimes;
 
     /**
      * Initialize class tested
      */
     @Before
     public void initialize() {
+        testIndexes = new ArrayList();
+        testAnimes = new ArrayList();
+        //set some data
+        Index onePieceIndex = new Index("One Piece", 21);
+        onePieceIndex.setCodeIndex(1);
+        Anime onePieceAnime = new Anime();
+        onePieceAnime.setCodeAnime(21);
+        onePieceAnime.setCurrentEpisode(600);
+        Index genshikenIndex = new Index("Genshiken", 240);
+        genshikenIndex.setCodeIndex(2);
+        Anime genAnime = new Anime();
+        genAnime.setCodeAnime(240);
+        genAnime.setCurrentEpisode(2);
+
+        testIndexes.add(onePieceIndex);
+        testIndexes.add(genshikenIndex);
+        testAnimes.add(onePieceAnime);
+        testAnimes.add(genAnime);
         mainFrame = new MainView();
     }//end of the test method initiate
 
@@ -61,10 +83,10 @@ public class MainViewTest {
      */
     @Test
     public void testGetIndex() {
-        mainFrame.setTableModel(new IndexTableModel(null, null) {
+        mainFrame.setTableModel(new IndexTableModel(testIndexes, testAnimes) {
             @Override
             public Index getIndex(int i) {
-                Index index = new Index(null, 45);
+                Index index = new Index("a", 45);
                 index.setCodeIndex(45);
                 return index;
             }
@@ -77,7 +99,7 @@ public class MainViewTest {
      */
     @Test
     public void testGetAnime() {
-        mainFrame.setTableModel(new IndexTableModel(null, null) {
+        mainFrame.setTableModel(new IndexTableModel(testIndexes, testAnimes) {
             @Override
             public Anime getAnime(int i) {
                 Anime anime = new Anime();

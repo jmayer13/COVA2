@@ -1,19 +1,44 @@
 apply plugin: 'java'
 apply plugin: 'scala'
+apply plugin: 'application'
 
 //code style
 //apply plugin: 'checkstyle'
-apply plugin: 'findbugs'
-apply plugin: "sonar"
+//apply plugin: 'findbugs'
+//apply plugin: "sonar"
 
 sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 //this works to avoid problems with mixed projects
 sourceSets.main.scala.srcDir "src/main/java"
-sourceSets.main.java.srcDirs = []
+sourceSets.main.java.srcDirs = [] 
+mainClassName = "cova2.Main"
+sourceSets {
+    integTest {
+        java.srcDir file('src/integTest/java')
+        resources.srcDir file('src/integTest/resources')
+    }
+    cucumberTest {
+        java.srcDir file('src/cucumberTest/java')
+        resources.srcDir file('src/cucumberTest/resources')
+    } 
+} 
+task integTest(type: Test) {
+    testClassesDir = sourceSets.integTest.output.classesDir
+    classpath = sourceSets.integTest.runtimeClasspath
+} 
+task cucumberTest(type: Test) {
+    testClassesDir = sourceSets.cucumberTest.output.classesDir
+    classpath = sourceSets.cucumberTest.runtimeClasspath
+}
+
+
 sourceSets.test.scala.srcDir "src/test/java"
 sourceSets.test.java.srcDirs = []
+
+check.dependsOn integTest
+check.dependsOn cucumberTest
 
 if (!hasProperty('mainClass')) {
     ext.mainClass = 'Main'
@@ -37,6 +62,16 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     //cuncuber dependences
     compile 'info.cukes:cucumber-jvm-deps:1.0.3'
+    //tests
+    integTestCompile sourceSets.main.output
+    integTestCompile configurations.testCompile
+    integTestCompile sourceSets.test.output
+    integTestRuntime configurations.testRuntime
+    cucumberTestCompile sourceSets.main.output
+    cucumberTestCompile configurations.testCompile
+    cucumberTestCompile sourceSets.test.output
+    cucumberTestRuntime configurations.testRuntime
+    
 }
 test {
     testLogging {
@@ -47,20 +82,20 @@ test {
 
 //Gradle Wrapper
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.0'
+    gradleVersion = '2.2'
 }
 
-sonar {
-    database {
-        url = "org.h2.Driver"
-        driverClassName = "jdbc:h2:./data/db/index"
-        username = "cova2"
-        password = ""
-    }
-    project {
-        coberturaReportPath = file("$buildDir/cobertura.xml")
-    }
-} 
+//sonar {
+//    database {
+//        url = "org.h2.Driver"
+//        driverClassName = "jdbc:h2:./data/db/index"
+//        username = "cova2"
+//        password = ""
+//   }
+//    project {
+//        coberturaReportPath = file("$buildDir/cobertura.xml")
+//   }
+//} 
 //
 //tasks.withType(ScalaCompile) {
 //    scalaCompileOptions.useAnt = false

@@ -16,6 +16,7 @@ package cova2;
 
 import cova2.controller.MainController;
 import cova2.util.LogManager;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /**
@@ -51,9 +52,14 @@ public class Main {
      */
     protected boolean doSmokeTests() {
         SmokeTests smokeTests = new SmokeTests();
-        if (!smokeTests.hasFilePermission()) {
-            JOptionPane.showMessageDialog(null, "I don't have permission to read/write files!", "WARNING!", JOptionPane.WARNING_MESSAGE);
-            System.exit(1);
+        try {
+            if (!smokeTests.hasFilePermission()) {
+                JOptionPane.showMessageDialog(null, "I don't have permission to read/write files!", "WARNING!", JOptionPane.WARNING_MESSAGE);
+                System.exit(1);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return false;
         }
         if (smokeTests.isSingleInstance()) {
             return true;
@@ -68,10 +74,22 @@ public class Main {
      * @return <code>Boolean</code> false if don't have update
      */
     protected boolean doUpdateCheck() {
-        UpdateCheck updateCheck = new UpdateCheck();
-        if (updateCheck.hasUpdate()) {
-            return true;
-        } else {
+        try {
+            UpdateCheck updateCheck = new UpdateCheck();
+            if (updateCheck.isUpdating()) {
+                updateCheck.finishUpdate();
+                return doUpdateCheck();
+            } else if (updateCheck.checkUpdateFail()) {
+                return false;
+            } else if (updateCheck.hasUpdate()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (IOException exception) {
+            logManager.debug("Error checking update", exception);
+            JOptionPane.showMessageDialog(null, "Error checking update!");
+            exception.printStackTrace();
             return false;
         }
     }//end of the method doUpdateCheck

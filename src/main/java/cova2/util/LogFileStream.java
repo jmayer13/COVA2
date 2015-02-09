@@ -67,6 +67,13 @@ public class LogFileStream {
      * @return <code>PrintWriter</code>
      */
     public PrintWriter getPrintWriter() {
+        if (printWriter == null) {
+            try {
+                createPrintWriter();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
         return printWriter;
     }//end of the method getPrintWriter
 

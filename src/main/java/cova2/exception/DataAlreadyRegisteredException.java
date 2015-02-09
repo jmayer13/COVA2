@@ -22,4 +22,8 @@ package cova2.exception;
  */
 public class DataAlreadyRegisteredException extends Exception {
 
+    public DataAlreadyRegisteredException() {
+        super();
+    }
+
 }//fim da classe DataAlreadyRegisteredException 

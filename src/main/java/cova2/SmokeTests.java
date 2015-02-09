@@ -17,6 +17,7 @@ package cova2;
 import cova2.util.LogManager;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import javax.swing.JOptionPane;
 
@@ -29,6 +30,7 @@ import javax.swing.JOptionPane;
 public class SmokeTests {
 
     private LogManager logManager;
+    private PrintWriter printWriter;
 
     /**
      * Constructor without parameter
@@ -43,20 +45,25 @@ public class SmokeTests {
      * @return <code>Boolean</code> true -unique instance
      */
     public boolean isSingleInstance() {
+        boolean single = false;
         logManager.info("Verifing if this is the only instance!");
         File fileLock = new File("lock");
         if (!fileLock.exists()) {
-            return true;
+            single = true;
         } else {
+            single = fileLock.delete();
+        }
+        if (single) {
             try {
-                PrintWriter printWriter = new PrintWriter(fileLock);
+                printWriter = new PrintWriter(fileLock);
             } catch (FileNotFoundException ex) {
                 logManager.error("Error deleting data", ex);
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             }
-            return false;
+
         }
+        return single;
     }//end of the method isSingleInstance
 
     /**
@@ -64,8 +71,11 @@ public class SmokeTests {
      *
      * @return <code>Boolean</code> answer
      */
-    public boolean hasFilePermission() {
+    public boolean hasFilePermission() throws IOException {
         File fileTest = new File("test");
+        if (!fileTest.exists()) {
+            fileTest.createNewFile();
+        }
         if (fileTest.canRead() && fileTest.canWrite()) {
             return true;
         } else {

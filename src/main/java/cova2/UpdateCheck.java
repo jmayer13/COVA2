@@ -16,7 +16,13 @@ package cova2;
 
 import cova2.update.UpdateLoader;
 import cova2.util.LogManager;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import javax.swing.JOptionPane;
 
 /**
@@ -47,12 +53,47 @@ public class UpdateCheck {
     public boolean hasUpdate() {
         try {
             return updateLoader.isUpdateAvaliable();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             logManager.error("Error searching update:", ex);
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Couldn't update:" + ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }//end of the method hasUpdate
+
+    boolean isUpdating() throws FileNotFoundException, IOException {
+        File updateZip = new File("update.zip");
+        if (updateZip.exists()) {
+            ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(updateZip));
+            ZipEntry zipEntry = null;
+            while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+                FileOutputStream fileOutputStream = new FileOutputStream(zipEntry.getName());
+                for (int c = zipInputStream.read(); c != -1; c = zipInputStream.read()) {
+                    fileOutputStream.write(c);
+                }
+
+                fileOutputStream.close();
+                zipEntry = zipInputStream.getNextEntry();
+            }
+
+            zipInputStream.closeEntry();
+            zipInputStream.close();
+            updateZip.delete();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    void finishUpdate() {
+        //TO DO: in case of data convertion or reconfiguration
+    }
+
+    boolean checkUpdateFail() {
+        File updateFail = new File("updateFail.err");
+        boolean result = updateFail.exists();
+        updateFail.delete();
+        return result;
+    }
 
 }//end of the class UpdateCheck 

@@ -66,7 +66,7 @@ public class AddAnimeView {
         frame.addToInternalPanel(currentEpisodeLabel);
         frame.addToInternalPanel(animeTitleField);
         frame.addToInternalPanel(currentEpisodeField);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }//end of the method startView
 
     /**

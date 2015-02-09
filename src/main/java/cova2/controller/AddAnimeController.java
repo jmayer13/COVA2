@@ -16,6 +16,8 @@ package cova2.controller;
 
 import cova2.dao.AnimeDAO;
 import cova2.dao.IndexDAO;
+import cova2.exception.DataAlreadyRegisteredException;
+import cova2.exception.UnavailableDataException;
 import cova2.model.anime.Anime;
 import cova2.model.index.Index;
 import cova2.util.LogManager;
@@ -88,7 +90,7 @@ public class AddAnimeController implements Subject {
                 try {
                     registerAnime(getIndex(), getAnime(getIndex()));
 
-                } catch (SQLException | ClassNotFoundException ex) {
+                } catch (SQLException | ClassNotFoundException | DataAlreadyRegisteredException ex) {
                     logManager.error("Error registering anime and index", ex);
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -96,7 +98,7 @@ public class AddAnimeController implements Subject {
             } else {
                 try {
                     editAnime(getIndex(), getAnime(getIndex()));
-                } catch (SQLException | ClassNotFoundException ex) {
+                } catch (SQLException | ClassNotFoundException | UnavailableDataException | DataAlreadyRegisteredException ex) {
                     logManager.error("Error editing anime and index", ex);
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -120,7 +122,7 @@ public class AddAnimeController implements Subject {
      * @throws SQLException
      * @throws java.lang.ClassNotFoundException
      */
-    public Index registerAnime(Index index, Anime anime) throws SQLException, ClassNotFoundException {
+    public Index registerAnime(Index index, Anime anime) throws SQLException, ClassNotFoundException, DataAlreadyRegisteredException {
         IndexDAO indexDAO = new IndexDAO();
         AnimeDAO animeDAO = new AnimeDAO();
         Index newIndex = indexDAO.addIndex(index);
@@ -244,7 +246,7 @@ public class AddAnimeController implements Subject {
         return addAnimeView;
     }//end of the method getView
 
-    protected void editAnime(Index index, Anime anime) throws SQLException, ClassNotFoundException {
+    protected void editAnime(Index index, Anime anime) throws SQLException, ClassNotFoundException, DataAlreadyRegisteredException, UnavailableDataException {
         IndexDAO indexDAO = new IndexDAO();
         AnimeDAO animeDAO = new AnimeDAO();
         indexDAO.editIndex(index);
