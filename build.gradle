@@ -1,29 +1,114 @@
 apply plugin: 'java'
+apply plugin: 'scala'
+apply plugin: 'application'
+
+//code style
+//apply plugin: 'checkstyle'
+//apply plugin: 'findbugs'
+//apply plugin: "sonar"
 
 sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-// NetBeans will automatically add "run" and "debug" tasks relying on the
-// "mainClass" property. You may however define the property prior executing
-// tasks by passing a "-PmainClass=<QUALIFIED_CLASS_NAME>" argument.
-//
-// Note however, that you may define your own "run" and "debug" task if you
-// prefer. In this case NetBeans will not add these tasks but you may rely on
-// your own implementation.
+//this works to avoid problems with mixed projects
+sourceSets.main.scala.srcDir "src/main/java"
+sourceSets.main.java.srcDirs = [] 
+mainClassName = "cova2.Main"
+sourceSets {
+    integTest {
+        java.srcDir file('src/integTest/java')
+        resources.srcDir file('src/integTest/resources')
+    }
+    cucumberTest {
+        java.srcDir file('src/cucumberTest/java')
+        resources.srcDir file('src/cucumberTest/resources')
+    } 
+} 
+task integTest(type: Test) {
+    testClassesDir = sourceSets.integTest.output.classesDir
+    classpath = sourceSets.integTest.runtimeClasspath
+} 
+task cucumberTest(type: Test) {
+    testClassesDir = sourceSets.cucumberTest.output.classesDir
+    classpath = sourceSets.cucumberTest.runtimeClasspath
+}
+
+
+sourceSets.test.scala.srcDir "src/test/java"
+sourceSets.test.java.srcDirs = []
+
+check.dependsOn integTest
+check.dependsOn cucumberTest
+
 if (!hasProperty('mainClass')) {
     ext.mainClass = 'Main'
-}
+}  
 
 repositories {
     mavenCentral()
-    // You may define additional repositories, or even remove "mavenCentral()".
-    // Read more about repositories here:
-    //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:repositories
 }
 
 dependencies {
-    // TODO: Add dependencies here ...
-    // You can read more about how to add dependency here:
-    //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:how_to_declare_your_dependencies
-    testCompile group: 'junit', name: 'junit', version: '4.10'
+    //h2 relational database
+    //compile 'com.h2database:h2:1.4.181'
+    compile fileTree('libs')
+    //scala
+    compile 'org.scala-lang:scala-library:2.11.2' 
+    //JFreeChart
+    //compile 'org.jfree:jfreechart:1.0.19' 
+    //JSON4S jackson
+    compile 'org.json4s:json4s-jackson_2.11:3.2.11'
+    //junit unitary test library
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    //cuncuber dependences
+    testCompile 'info.cukes:cucumber-jvm:1.2.2',
+        'info.cukes:cucumber-java:1.2.2',
+        'info.cukes:cucumber-junit:1.2.2' 
+    testCompile 'info.cukes:cucumber-jvm-deps:1.0.3'
+    //tests
+    integTestCompile sourceSets.main.output
+    integTestCompile configurations.testCompile
+    integTestCompile sourceSets.test.output
+    integTestRuntime configurations.testRuntime
+    cucumberTestCompile sourceSets.main.output
+    cucumberTestCompile configurations.testCompile
+    cucumberTestCompile sourceSets.test.output
+    cucumberTestRuntime configurations.testRuntime
+    
+}
+test {
+    testLogging {
+        // Show that tests are run in the command-line output
+        events 'started', 'passed'
+    }
+}
+
+//Gradle Wrapper
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2'
+}
+
+//sonar {
+//    database {
+//        url = "org.h2.Driver"
+//        driverClassName = "jdbc:h2:./data/db/index"
+//        username = "cova2"
+//        password = ""
+//   }
+//    project {
+//        coberturaReportPath = file("$buildDir/cobertura.xml")
+//   }
+//} 
+//
+//tasks.withType(ScalaCompile) {
+//    scalaCompileOptions.useAnt = false
+//}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'cova2.Main'
+    } 
+    doFirst {
+        from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+    }
 }

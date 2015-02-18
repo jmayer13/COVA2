@@ -1,0 +1,479 @@
+INFO: 2015-02-09T03:31:05.196Z: cova2.Main - Running...
+DEBUG: 2015-02-09T03:31:05.262Z: cova2.Main - Smoke Testing ...
+DEBUG: 2015-02-09T03:31:05.262Z: cova2.Main - Verifing updates...
+INFO: 2015-02-09T03:31:05.262Z: cova2.Main - Starting...
+INFO: 2015-02-09T03:31:05.265Z: cova2.controller.MainController - Starting view ...
+TRACE: 2015-02-09T03:31:05.271Z: cova2.view.MainView - Starting view ...
+TRACE: 2015-02-09T03:31:05.271Z: cova2.view.MainView - Initializing components
+TRACE: 2015-02-09T03:31:05.450Z: cova2.view.MainView - Encapsuling components in ComponentHacks
+TRACE: 2015-02-09T03:31:05.450Z: cova2.view.MainView - Setting bounds
+TRACE: 2015-02-09T03:31:05.450Z: cova2.view.MainView - Joining components
+TRACE: 2015-02-09T03:31:05.454Z: cova2.view.MainView - View Started
+INFO: 2015-02-09T03:31:05.454Z: cova2.controller.MainController - Shearching data...
+INFO: 2015-02-09T03:31:05.454Z: cova2.controller.MainController - Shearching indexes...
+TRACE: 2015-02-09T03:31:05.456Z: cova2.dao.IndexDAO - Connecting with database ...
+TRACE: 2015-02-09T03:31:05.461Z: cova2.dao.ConnectIndexDB - Verifying if connection is ready
+WARN: 2015-02-09T03:31:05.536Z: cova2.dao.ConnectIndexDB - Database is not ready
+org.h2.jdbc.JdbcSQLException: Database "D:/COVA2/data/db/index" not found [90013-176]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:344)
+	at org.h2.message.DbException.get(DbException.java:178)
+	at org.h2.message.DbException.get(DbException.java:154)
+	at org.h2.engine.Engine.openSession(Engine.java:55)
+	at org.h2.engine.Engine.openSession(Engine.java:164)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:142)
+	at org.h2.engine.Engine.createSession(Engine.java:125)
+	at org.h2.engine.Engine.createSession(Engine.java:27)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:331)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:107)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:91)
+	at org.h2.Driver.connect(Driver.java:74)
+	at java.sql.DriverManager.getConnection(DriverManager.java:664)
+	at java.sql.DriverManager.getConnection(DriverManager.java:247)
+	at cova2.dao.ConnectIndexDB.isDatabaseReady(ConnectIndexDB.java:142)
+	at cova2.dao.ConnectIndexDB.getConnection(ConnectIndexDB.java:73)
+	at cova2.dao.IndexDAO.connect(IndexDAO.java:56)
+	at cova2.dao.IndexDAO.<init>(IndexDAO.java:47)
+	at cova2.controller.MainController.loadIndexes(MainController.java:192)
+	at cova2.controller.MainController.startView(MainController.java:123)
+	at cova2.controller.MainController.<init>(MainController.java:55)
+	at cova2.Main.startMain(Main.java:109)
+	at cova2.MainTest.testStartMain(MainTest.java:40)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:483)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:86)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:49)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:69)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:48)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:483)
+	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.messaging.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
+	at org.gradle.messaging.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
+	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:105)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:483)
+	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.messaging.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:360)
+	at org.gradle.internal.concurrent.DefaultExecutorFactory$StoppableExecutorImpl$1.run(DefaultExecutorFactory.java:64)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+DEBUG: 2015-02-09T03:31:05.537Z: cova2.dao.ConnectIndexDB - Database is ready: false
+DEBUG: 2015-02-09T03:31:05.537Z: cova2.dao.ConnectIndexDB - The schema is not ready
+DEBUG: 2015-02-09T03:31:05.537Z: cova2.dao.ConnectIndexDB - Creating conection...
+DEBUG: 2015-02-09T03:31:05.775Z: cova2.dao.ConnectIndexDB - Creating schema
+TRACE: 2015-02-09T03:31:05.775Z: cova2.dao.ConnectIndexDB - Creating table
+TRACE: 2015-02-09T03:31:05.779Z: cova2.dao.ConnectIndexDB - TABLE OK: false
+TRACE: 2015-02-09T03:31:05.779Z: cova2.dao.ConnectIndexDB - Verifying if connection is ready
+DEBUG: 2015-02-09T03:31:05.779Z: cova2.dao.ConnectIndexDB - Database is ready: true
+DEBUG: 2015-02-09T03:31:05.780Z: cova2.dao.IndexDAO - Getting 0 indexes from database
+INFO: 2015-02-09T03:31:05.780Z: cova2.controller.MainController - Shearching animes...
+TRACE: 2015-02-09T03:31:05.782Z: cova2.controller.MainController - Table model created
+INFO: 2015-02-09T03:31:05.783Z: cova2.view.MainView - Updating tableModel
+INFO: 2015-02-09T03:31:05.783Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:05.783Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:05.783Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+DEBUG: 2015-02-09T03:31:05.783Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:05.784Z: cova2.view.MainView - Adding ActionListener to button add
+TRACE: 2015-02-09T03:31:05.785Z: cova2.view.MainView - Adding ActionListener to button edit
+TRACE: 2015-02-09T03:31:05.785Z: cova2.view.MainView - Adding ActionListener to button +
+TRACE: 2015-02-09T03:31:05.786Z: cova2.view.MainView - Adding ActionListener to button -
+TRACE: 2015-02-09T03:31:05.786Z: cova2.view.MainView - Adding ActionListener to button delete
+TRACE: 2015-02-09T03:31:05.786Z: cova2.view.MainView - Adding WindowListener to view
+INFO: 2015-02-09T03:31:05.814Z: cova2.controller.AddAnimeController - Starting view...
+TRACE: 2015-02-09T03:31:05.817Z: cova2.view.AddAnimeView - Initializing view ...
+TRACE: 2015-02-09T03:31:05.817Z: cova2.view.AddAnimeView - Initializing components
+TRACE: 2015-02-09T03:31:05.881Z: cova2.view.AddAnimeView - Setting bounds
+TRACE: 2015-02-09T03:31:05.881Z: cova2.view.AddAnimeView - Joining components
+TRACE: 2015-02-09T03:31:05.917Z: cova2.view.AddAnimeView - Action Listener added to the button OK
+TRACE: 2015-02-09T03:31:05.917Z: cova2.view.AddAnimeView - Action Listener added to the button OK
+TRACE: 2015-02-09T03:31:05.917Z: cova2.view.AddAnimeView - Window Listener added to the frame
+INFO: 2015-02-09T03:31:05.917Z: cova2.controller.AddAnimeController - Adding oberver 
+INFO: 2015-02-09T03:31:05.917Z: cova2.controller.AddAnimeController - Notifying obervers 
+INFO: 2015-02-09T03:31:05.921Z: cova2.controller.AddAnimeController - Starting view...
+TRACE: 2015-02-09T03:31:05.921Z: cova2.view.AddAnimeView - Initializing view ...
+TRACE: 2015-02-09T03:31:05.921Z: cova2.view.AddAnimeView - Initializing components
+TRACE: 2015-02-09T03:31:05.936Z: cova2.view.AddAnimeView - Setting bounds
+TRACE: 2015-02-09T03:31:05.936Z: cova2.view.AddAnimeView - Joining components
+TRACE: 2015-02-09T03:31:05.937Z: cova2.view.AddAnimeView - Action Listener added to the button OK
+TRACE: 2015-02-09T03:31:05.937Z: cova2.view.AddAnimeView - Action Listener added to the button OK
+TRACE: 2015-02-09T03:31:05.937Z: cova2.view.AddAnimeView - Window Listener added to the frame
+INFO: 2015-02-09T03:31:05.937Z: cova2.controller.AddAnimeController - Adding oberver 
+INFO: 2015-02-09T03:31:05.937Z: cova2.controller.AddAnimeController - Removing oberver 
+INFO: 2015-02-09T03:31:05.937Z: cova2.controller.AddAnimeController - Notifying obervers 
+INFO: 2015-02-09T03:31:05.938Z: cova2.controller.AddAnimeController - Starting view...
+TRACE: 2015-02-09T03:31:05.938Z: cova2.view.AddAnimeView - Initializing view ...
+TRACE: 2015-02-09T03:31:05.938Z: cova2.view.AddAnimeView - Initializing components
+TRACE: 2015-02-09T03:31:05.955Z: cova2.view.AddAnimeView - Setting bounds
+TRACE: 2015-02-09T03:31:05.955Z: cova2.view.AddAnimeView - Joining components
+TRACE: 2015-02-09T03:31:05.956Z: cova2.view.AddAnimeView - Action Listener added to the button OK
+TRACE: 2015-02-09T03:31:05.956Z: cova2.view.AddAnimeView - Action Listener added to the button OK
+TRACE: 2015-02-09T03:31:05.956Z: cova2.view.AddAnimeView - Window Listener added to the frame
+INFO: 2015-02-09T03:31:05.956Z: cova2.controller.AddAnimeController - Closing view...
+DEBUG: 2015-02-09T03:31:05.956Z: cova2.view.AddAnimeView - Closing view
+INFO: 2015-02-09T03:31:05.977Z: cova2.controller.MainController - Starting view ...
+TRACE: 2015-02-09T03:31:05.977Z: cova2.view.MainView - Starting view ...
+TRACE: 2015-02-09T03:31:05.977Z: cova2.view.MainView - Initializing components
+TRACE: 2015-02-09T03:31:05.993Z: cova2.view.MainView - Encapsuling components in ComponentHacks
+TRACE: 2015-02-09T03:31:05.993Z: cova2.view.MainView - Setting bounds
+TRACE: 2015-02-09T03:31:05.993Z: cova2.view.MainView - Joining components
+TRACE: 2015-02-09T03:31:05.995Z: cova2.view.MainView - View Started
+INFO: 2015-02-09T03:31:05.995Z: cova2.controller.MainController - Shearching data...
+INFO: 2015-02-09T03:31:05.995Z: cova2.controller.MainController - Shearching indexes...
+INFO: 2015-02-09T03:31:05.995Z: cova2.controller.MainController - Shearching animes...
+TRACE: 2015-02-09T03:31:05.995Z: cova2.controller.MainController - Table model created
+INFO: 2015-02-09T03:31:05.995Z: cova2.view.MainView - Updating tableModel
+INFO: 2015-02-09T03:31:05.995Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:05.995Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:05.995Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+TRACE: 2015-02-09T03:31:05.996Z: cova2.view.MainView - Adding ActionListener to button add
+TRACE: 2015-02-09T03:31:05.996Z: cova2.view.MainView - Adding ActionListener to button edit
+TRACE: 2015-02-09T03:31:05.996Z: cova2.view.MainView - Adding ActionListener to button +
+TRACE: 2015-02-09T03:31:05.996Z: cova2.view.MainView - Adding ActionListener to button -
+TRACE: 2015-02-09T03:31:05.996Z: cova2.view.MainView - Adding ActionListener to button delete
+TRACE: 2015-02-09T03:31:05.996Z: cova2.view.MainView - Adding WindowListener to view
+INFO: 2015-02-09T03:31:05.996Z: cova2.controller.MainController - Getting anime from row 0
+INFO: 2015-02-09T03:31:05.996Z: cova2.view.MainView - Getting anime of row 0
+DEBUG: 2015-02-09T03:31:05.996Z: cova2.view.tableModel.IndexTableModel - Get anime from line 0
+INFO: 2015-02-09T03:31:05.996Z: cova2.controller.MainController - Getting anime from row 0
+INFO: 2015-02-09T03:31:05.996Z: cova2.view.MainView - Getting anime of row 0
+DEBUG: 2015-02-09T03:31:05.996Z: cova2.view.tableModel.IndexTableModel - Get anime from line 0
+DEBUG: 2015-02-09T03:31:05.997Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:05.997Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+INFO: 2015-02-09T03:31:05.997Z: cova2.controller.MainController - Starting view ...
+TRACE: 2015-02-09T03:31:05.998Z: cova2.view.MainView - Starting view ...
+TRACE: 2015-02-09T03:31:05.998Z: cova2.view.MainView - Initializing components
+DEBUG: 2015-02-09T03:31:06.016Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.016Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:06.018Z: cova2.view.MainView - Encapsuling components in ComponentHacks
+TRACE: 2015-02-09T03:31:06.018Z: cova2.view.MainView - Setting bounds
+TRACE: 2015-02-09T03:31:06.018Z: cova2.view.MainView - Joining components
+TRACE: 2015-02-09T03:31:06.020Z: cova2.view.MainView - View Started
+INFO: 2015-02-09T03:31:06.020Z: cova2.controller.MainController - Shearching data...
+INFO: 2015-02-09T03:31:06.020Z: cova2.controller.MainController - Shearching indexes...
+INFO: 2015-02-09T03:31:06.020Z: cova2.controller.MainController - Shearching animes...
+TRACE: 2015-02-09T03:31:06.020Z: cova2.controller.MainController - Table model created
+INFO: 2015-02-09T03:31:06.020Z: cova2.view.MainView - Updating tableModel
+INFO: 2015-02-09T03:31:06.020Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.020Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.020Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+TRACE: 2015-02-09T03:31:06.020Z: cova2.view.MainView - Adding ActionListener to button add
+TRACE: 2015-02-09T03:31:06.020Z: cova2.view.MainView - Adding ActionListener to button edit
+TRACE: 2015-02-09T03:31:06.020Z: cova2.view.MainView - Adding ActionListener to button +
+TRACE: 2015-02-09T03:31:06.020Z: cova2.view.MainView - Adding ActionListener to button -
+TRACE: 2015-02-09T03:31:06.020Z: cova2.view.MainView - Adding ActionListener to button delete
+TRACE: 2015-02-09T03:31:06.020Z: cova2.view.MainView - Adding WindowListener to view
+DEBUG: 2015-02-09T03:31:06.020Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.020Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.020Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.021Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.021Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.021Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.021Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.021Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.021Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+INFO: 2015-02-09T03:31:06.021Z: cova2.controller.MainController - Starting view ...
+TRACE: 2015-02-09T03:31:06.022Z: cova2.view.MainView - Starting view ...
+TRACE: 2015-02-09T03:31:06.022Z: cova2.view.MainView - Initializing components
+DEBUG: 2015-02-09T03:31:06.033Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.033Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:06.040Z: cova2.view.MainView - Encapsuling components in ComponentHacks
+TRACE: 2015-02-09T03:31:06.040Z: cova2.view.MainView - Setting bounds
+TRACE: 2015-02-09T03:31:06.040Z: cova2.view.MainView - Joining components
+TRACE: 2015-02-09T03:31:06.042Z: cova2.view.MainView - View Started
+INFO: 2015-02-09T03:31:06.042Z: cova2.controller.MainController - Shearching data...
+INFO: 2015-02-09T03:31:06.042Z: cova2.controller.MainController - Shearching indexes...
+INFO: 2015-02-09T03:31:06.043Z: cova2.controller.MainController - Shearching animes...
+TRACE: 2015-02-09T03:31:06.043Z: cova2.controller.MainController - Table model created
+INFO: 2015-02-09T03:31:06.043Z: cova2.view.MainView - Updating tableModel
+INFO: 2015-02-09T03:31:06.043Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.043Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+DEBUG: 2015-02-09T03:31:06.043Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+INFO: 2015-02-09T03:31:06.043Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+DEBUG: 2015-02-09T03:31:06.043Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:06.043Z: cova2.view.MainView - Adding ActionListener to button add
+TRACE: 2015-02-09T03:31:06.043Z: cova2.view.MainView - Adding ActionListener to button edit
+TRACE: 2015-02-09T03:31:06.043Z: cova2.view.MainView - Adding ActionListener to button +
+TRACE: 2015-02-09T03:31:06.043Z: cova2.view.MainView - Adding ActionListener to button -
+TRACE: 2015-02-09T03:31:06.043Z: cova2.view.MainView - Adding ActionListener to button delete
+TRACE: 2015-02-09T03:31:06.043Z: cova2.view.MainView - Adding WindowListener to view
+INFO: 2015-02-09T03:31:06.043Z: cova2.controller.MainController - Updating data...
+DEBUG: 2015-02-09T03:31:06.043Z: cova2.view.tableModel.IndexTableModel - Updating list indexes with 1 elements, list amimes with 2
+INFO: 2015-02-09T03:31:06.043Z: cova2.controller.MainController - Getting index from row 0
+INFO: 2015-02-09T03:31:06.043Z: cova2.view.MainView - Getting index of row 0
+DEBUG: 2015-02-09T03:31:06.043Z: cova2.view.tableModel.IndexTableModel - Get index from line 0
+INFO: 2015-02-09T03:31:06.044Z: cova2.controller.MainController - Starting view ...
+TRACE: 2015-02-09T03:31:06.044Z: cova2.view.MainView - Starting view ...
+TRACE: 2015-02-09T03:31:06.044Z: cova2.view.MainView - Initializing components
+DEBUG: 2015-02-09T03:31:06.047Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.047Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:06.061Z: cova2.view.MainView - Encapsuling components in ComponentHacks
+TRACE: 2015-02-09T03:31:06.061Z: cova2.view.MainView - Setting bounds
+TRACE: 2015-02-09T03:31:06.061Z: cova2.view.MainView - Joining components
+TRACE: 2015-02-09T03:31:06.063Z: cova2.view.MainView - View Started
+INFO: 2015-02-09T03:31:06.063Z: cova2.controller.MainController - Shearching data...
+INFO: 2015-02-09T03:31:06.063Z: cova2.controller.MainController - Shearching indexes...
+INFO: 2015-02-09T03:31:06.063Z: cova2.controller.MainController - Shearching animes...
+TRACE: 2015-02-09T03:31:06.063Z: cova2.controller.MainController - Table model created
+INFO: 2015-02-09T03:31:06.063Z: cova2.view.MainView - Updating tableModel
+INFO: 2015-02-09T03:31:06.063Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.063Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.063Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+TRACE: 2015-02-09T03:31:06.063Z: cova2.view.MainView - Adding ActionListener to button add
+TRACE: 2015-02-09T03:31:06.063Z: cova2.view.MainView - Adding ActionListener to button edit
+TRACE: 2015-02-09T03:31:06.063Z: cova2.view.MainView - Adding ActionListener to button +
+DEBUG: 2015-02-09T03:31:06.063Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:06.063Z: cova2.view.MainView - Adding ActionListener to button -
+DEBUG: 2015-02-09T03:31:06.063Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:06.063Z: cova2.view.MainView - Adding ActionListener to button delete
+TRACE: 2015-02-09T03:31:06.063Z: cova2.view.MainView - Adding WindowListener to view
+TRACE: 2015-02-09T03:31:06.064Z: cova2.controller.MainController - View is open: true
+DEBUG: 2015-02-09T03:31:06.064Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.064Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+INFO: 2015-02-09T03:31:06.064Z: cova2.controller.MainController - Starting view ...
+TRACE: 2015-02-09T03:31:06.064Z: cova2.view.MainView - Starting view ...
+TRACE: 2015-02-09T03:31:06.064Z: cova2.view.MainView - Initializing components
+TRACE: 2015-02-09T03:31:06.078Z: cova2.view.MainView - Encapsuling components in ComponentHacks
+TRACE: 2015-02-09T03:31:06.078Z: cova2.view.MainView - Setting bounds
+TRACE: 2015-02-09T03:31:06.078Z: cova2.view.MainView - Joining components
+TRACE: 2015-02-09T03:31:06.080Z: cova2.view.MainView - View Started
+INFO: 2015-02-09T03:31:06.080Z: cova2.controller.MainController - Shearching data...
+INFO: 2015-02-09T03:31:06.080Z: cova2.controller.MainController - Shearching indexes...
+INFO: 2015-02-09T03:31:06.080Z: cova2.controller.MainController - Shearching animes...
+TRACE: 2015-02-09T03:31:06.080Z: cova2.controller.MainController - Table model created
+INFO: 2015-02-09T03:31:06.080Z: cova2.view.MainView - Updating tableModel
+INFO: 2015-02-09T03:31:06.080Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.080Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.080Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+TRACE: 2015-02-09T03:31:06.080Z: cova2.view.MainView - Adding ActionListener to button add
+TRACE: 2015-02-09T03:31:06.080Z: cova2.view.MainView - Adding ActionListener to button edit
+TRACE: 2015-02-09T03:31:06.080Z: cova2.view.MainView - Adding ActionListener to button +
+TRACE: 2015-02-09T03:31:06.080Z: cova2.view.MainView - Adding ActionListener to button -
+DEBUG: 2015-02-09T03:31:06.080Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:06.080Z: cova2.view.MainView - Adding ActionListener to button delete
+DEBUG: 2015-02-09T03:31:06.080Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:06.080Z: cova2.view.MainView - Adding WindowListener to view
+INFO: 2015-02-09T03:31:06.080Z: cova2.view.MainView - cova2.view.MainView
+DEBUG: 2015-02-09T03:31:06.081Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.081Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:06.083Z: cova2.controller.MainController - View is open: false
+INFO: 2015-02-09T03:31:06.084Z: cova2.controller.MainController - Starting view ...
+TRACE: 2015-02-09T03:31:06.084Z: cova2.view.MainView - Starting view ...
+TRACE: 2015-02-09T03:31:06.084Z: cova2.view.MainView - Initializing components
+TRACE: 2015-02-09T03:31:06.096Z: cova2.view.MainView - Encapsuling components in ComponentHacks
+TRACE: 2015-02-09T03:31:06.097Z: cova2.view.MainView - Setting bounds
+TRACE: 2015-02-09T03:31:06.097Z: cova2.view.MainView - Joining components
+TRACE: 2015-02-09T03:31:06.099Z: cova2.view.MainView - View Started
+INFO: 2015-02-09T03:31:06.099Z: cova2.controller.MainController - Shearching data...
+INFO: 2015-02-09T03:31:06.099Z: cova2.controller.MainController - Shearching indexes...
+INFO: 2015-02-09T03:31:06.099Z: cova2.controller.MainController - Shearching animes...
+TRACE: 2015-02-09T03:31:06.099Z: cova2.controller.MainController - Table model created
+INFO: 2015-02-09T03:31:06.099Z: cova2.view.MainView - Updating tableModel
+INFO: 2015-02-09T03:31:06.099Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.099Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.099Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+TRACE: 2015-02-09T03:31:06.099Z: cova2.view.MainView - Adding ActionListener to button add
+DEBUG: 2015-02-09T03:31:06.099Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.099Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:06.099Z: cova2.view.MainView - Adding ActionListener to button edit
+TRACE: 2015-02-09T03:31:06.099Z: cova2.view.MainView - Adding ActionListener to button +
+TRACE: 2015-02-09T03:31:06.099Z: cova2.view.MainView - Adding ActionListener to button -
+TRACE: 2015-02-09T03:31:06.100Z: cova2.view.MainView - Adding ActionListener to button delete
+TRACE: 2015-02-09T03:31:06.100Z: cova2.view.MainView - Adding WindowListener to view
+INFO: 2015-02-09T03:31:06.100Z: cova2.controller.MainController - Getting index from row 0
+INFO: 2015-02-09T03:31:06.100Z: cova2.view.MainView - Getting index of row 0
+DEBUG: 2015-02-09T03:31:06.100Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.100Z: cova2.view.tableModel.IndexTableModel - Get index from line 0
+DEBUG: 2015-02-09T03:31:06.100Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+INFO: 2015-02-09T03:31:06.100Z: cova2.controller.MainController - Starting view ...
+TRACE: 2015-02-09T03:31:06.100Z: cova2.view.MainView - Starting view ...
+TRACE: 2015-02-09T03:31:06.100Z: cova2.view.MainView - Initializing components
+TRACE: 2015-02-09T03:31:06.115Z: cova2.view.MainView - Encapsuling components in ComponentHacks
+TRACE: 2015-02-09T03:31:06.115Z: cova2.view.MainView - Setting bounds
+TRACE: 2015-02-09T03:31:06.115Z: cova2.view.MainView - Joining components
+TRACE: 2015-02-09T03:31:06.116Z: cova2.view.MainView - View Started
+INFO: 2015-02-09T03:31:06.116Z: cova2.controller.MainController - Shearching data...
+INFO: 2015-02-09T03:31:06.116Z: cova2.controller.MainController - Shearching indexes...
+INFO: 2015-02-09T03:31:06.117Z: cova2.controller.MainController - Shearching animes...
+TRACE: 2015-02-09T03:31:06.117Z: cova2.controller.MainController - Table model created
+INFO: 2015-02-09T03:31:06.117Z: cova2.view.MainView - Updating tableModel
+INFO: 2015-02-09T03:31:06.117Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.117Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.117Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+TRACE: 2015-02-09T03:31:06.117Z: cova2.view.MainView - Adding ActionListener to button add
+DEBUG: 2015-02-09T03:31:06.117Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:06.117Z: cova2.view.MainView - Adding ActionListener to button edit
+DEBUG: 2015-02-09T03:31:06.117Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:06.117Z: cova2.view.MainView - Adding ActionListener to button +
+TRACE: 2015-02-09T03:31:06.117Z: cova2.view.MainView - Adding ActionListener to button -
+TRACE: 2015-02-09T03:31:06.117Z: cova2.view.MainView - Adding ActionListener to button delete
+TRACE: 2015-02-09T03:31:06.117Z: cova2.view.MainView - Adding WindowListener to view
+INFO: 2015-02-09T03:31:06.117Z: cova2.controller.MainController - Getting anime from row 0
+INFO: 2015-02-09T03:31:06.117Z: cova2.view.MainView - Getting anime of row 0
+DEBUG: 2015-02-09T03:31:06.117Z: cova2.view.tableModel.IndexTableModel - Get anime from line 0
+DEBUG: 2015-02-09T03:31:06.117Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.118Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+INFO: 2015-02-09T03:31:06.118Z: cova2.controller.MainController - Starting view ...
+TRACE: 2015-02-09T03:31:06.118Z: cova2.view.MainView - Starting view ...
+TRACE: 2015-02-09T03:31:06.118Z: cova2.view.MainView - Initializing components
+TRACE: 2015-02-09T03:31:06.131Z: cova2.view.MainView - Encapsuling components in ComponentHacks
+TRACE: 2015-02-09T03:31:06.131Z: cova2.view.MainView - Setting bounds
+TRACE: 2015-02-09T03:31:06.131Z: cova2.view.MainView - Joining components
+TRACE: 2015-02-09T03:31:06.133Z: cova2.view.MainView - View Started
+INFO: 2015-02-09T03:31:06.133Z: cova2.controller.MainController - Shearching data...
+INFO: 2015-02-09T03:31:06.133Z: cova2.controller.MainController - Shearching indexes...
+INFO: 2015-02-09T03:31:06.133Z: cova2.controller.MainController - Shearching animes...
+TRACE: 2015-02-09T03:31:06.133Z: cova2.controller.MainController - Table model created
+INFO: 2015-02-09T03:31:06.133Z: cova2.view.MainView - Updating tableModel
+INFO: 2015-02-09T03:31:06.133Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.133Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.133Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+TRACE: 2015-02-09T03:31:06.133Z: cova2.view.MainView - Adding ActionListener to button add
+TRACE: 2015-02-09T03:31:06.133Z: cova2.view.MainView - Adding ActionListener to button edit
+TRACE: 2015-02-09T03:31:06.133Z: cova2.view.MainView - Adding ActionListener to button +
+TRACE: 2015-02-09T03:31:06.133Z: cova2.view.MainView - Adding ActionListener to button -
+TRACE: 2015-02-09T03:31:06.133Z: cova2.view.MainView - Adding ActionListener to button delete
+TRACE: 2015-02-09T03:31:06.133Z: cova2.view.MainView - Adding WindowListener to view
+INFO: 2015-02-09T03:31:06.133Z: cova2.controller.MainController - Getting index from row 0
+INFO: 2015-02-09T03:31:06.133Z: cova2.view.MainView - Getting index of row 0
+DEBUG: 2015-02-09T03:31:06.133Z: cova2.view.tableModel.IndexTableModel - Get index from line 0
+DEBUG: 2015-02-09T03:31:06.134Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.134Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+INFO: 2015-02-09T03:31:06.134Z: cova2.controller.MainController - Starting view ...
+TRACE: 2015-02-09T03:31:06.134Z: cova2.view.MainView - Starting view ...
+TRACE: 2015-02-09T03:31:06.134Z: cova2.view.MainView - Initializing components
+TRACE: 2015-02-09T03:31:06.149Z: cova2.view.MainView - Encapsuling components in ComponentHacks
+TRACE: 2015-02-09T03:31:06.149Z: cova2.view.MainView - Setting bounds
+TRACE: 2015-02-09T03:31:06.149Z: cova2.view.MainView - Joining components
+TRACE: 2015-02-09T03:31:06.151Z: cova2.view.MainView - View Started
+INFO: 2015-02-09T03:31:06.151Z: cova2.controller.MainController - Shearching data...
+INFO: 2015-02-09T03:31:06.151Z: cova2.controller.MainController - Shearching indexes...
+INFO: 2015-02-09T03:31:06.151Z: cova2.controller.MainController - Shearching animes...
+TRACE: 2015-02-09T03:31:06.151Z: cova2.controller.MainController - Table model created
+INFO: 2015-02-09T03:31:06.151Z: cova2.view.MainView - Updating tableModel
+INFO: 2015-02-09T03:31:06.151Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.151Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.151Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+TRACE: 2015-02-09T03:31:06.151Z: cova2.view.MainView - Adding ActionListener to button add
+DEBUG: 2015-02-09T03:31:06.151Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:06.151Z: cova2.view.MainView - Adding ActionListener to button edit
+TRACE: 2015-02-09T03:31:06.151Z: cova2.view.MainView - Adding ActionListener to button +
+DEBUG: 2015-02-09T03:31:06.151Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T03:31:06.151Z: cova2.view.MainView - Adding ActionListener to button -
+TRACE: 2015-02-09T03:31:06.151Z: cova2.view.MainView - Adding ActionListener to button delete
+TRACE: 2015-02-09T03:31:06.151Z: cova2.view.MainView - Adding WindowListener to view
+INFO: 2015-02-09T03:31:06.151Z: cova2.controller.MainController - Getting index from row 0
+INFO: 2015-02-09T03:31:06.151Z: cova2.view.MainView - Getting index of row 0
+DEBUG: 2015-02-09T03:31:06.152Z: cova2.view.tableModel.IndexTableModel - Get index from line 0
+INFO: 2015-02-09T03:31:06.152Z: cova2.controller.MainController - Getting anime from row 0
+INFO: 2015-02-09T03:31:06.152Z: cova2.view.MainView - Getting anime of row 0
+DEBUG: 2015-02-09T03:31:06.152Z: cova2.view.tableModel.IndexTableModel - Get anime from line 0
+INFO: 2015-02-09T03:31:06.152Z: cova2.controller.MainController - Caling controller to add anime...
+DEBUG: 2015-02-09T03:31:06.152Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.152Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+INFO: 2015-02-09T03:31:06.152Z: cova2.controller.AddAnimeController - Starting view...
+TRACE: 2015-02-09T03:31:06.152Z: cova2.view.AddAnimeView - Initializing view ...
+TRACE: 2015-02-09T03:31:06.152Z: cova2.view.AddAnimeView - Initializing components
+TRACE: 2015-02-09T03:31:06.163Z: cova2.view.AddAnimeView - Setting bounds
+TRACE: 2015-02-09T03:31:06.163Z: cova2.view.AddAnimeView - Joining components
+TRACE: 2015-02-09T03:31:06.164Z: cova2.view.AddAnimeView - Action Listener added to the button OK
+TRACE: 2015-02-09T03:31:06.164Z: cova2.view.AddAnimeView - Action Listener added to the button OK
+TRACE: 2015-02-09T03:31:06.164Z: cova2.view.AddAnimeView - Window Listener added to the frame
+DEBUG: 2015-02-09T03:31:06.164Z: cova2.view.AddAnimeView - Set titleAnime One Piece
+DEBUG: 2015-02-09T03:31:06.169Z: cova2.view.AddAnimeView - Set currentEpisode 600.0
+INFO: 2015-02-09T03:31:06.171Z: cova2.controller.AddAnimeController - Adding oberver 
+DEBUG: 2015-02-09T03:31:06.171Z: cova2.view.AddAnimeView - The data in form is valid
+INFO: 2015-02-09T03:31:06.171Z: cova2.controller.MainController - Starting view ...
+TRACE: 2015-02-09T03:31:06.171Z: cova2.view.MainView - Starting view ...
+TRACE: 2015-02-09T03:31:06.171Z: cova2.view.MainView - Initializing components
+TRACE: 2015-02-09T03:31:06.189Z: cova2.view.MainView - Encapsuling components in ComponentHacks
+TRACE: 2015-02-09T03:31:06.189Z: cova2.view.MainView - Setting bounds
+TRACE: 2015-02-09T03:31:06.189Z: cova2.view.MainView - Joining components
+TRACE: 2015-02-09T03:31:06.190Z: cova2.view.MainView - View Started
+INFO: 2015-02-09T03:31:06.190Z: cova2.controller.MainController - Shearching data...
+INFO: 2015-02-09T03:31:06.190Z: cova2.controller.MainController - Shearching indexes...
+INFO: 2015-02-09T03:31:06.190Z: cova2.controller.MainController - Shearching animes...
+TRACE: 2015-02-09T03:31:06.190Z: cova2.controller.MainController - Table model created
+INFO: 2015-02-09T03:31:06.190Z: cova2.view.MainView - Updating tableModel
+INFO: 2015-02-09T03:31:06.190Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.190Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T03:31:06.190Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+TRACE: 2015-02-09T03:31:06.190Z: cova2.view.MainView - Adding ActionListener to button add
+TRACE: 2015-02-09T03:31:06.190Z: cova2.view.MainView - Adding ActionListener to button edit
+TRACE: 2015-02-09T03:31:06.190Z: cova2.view.MainView - Adding ActionListener to button +
+TRACE: 2015-02-09T03:31:06.190Z: cova2.view.MainView - Adding ActionListener to button -
+TRACE: 2015-02-09T03:31:06.190Z: cova2.view.MainView - Adding ActionListener to button delete
+TRACE: 2015-02-09T03:31:06.190Z: cova2.view.MainView - Adding WindowListener to view
+INFO: 2015-02-09T03:31:06.190Z: cova2.controller.MainController - Getting anime from row 0
+INFO: 2015-02-09T03:31:06.191Z: cova2.view.MainView - Getting anime of row 0
+DEBUG: 2015-02-09T03:31:06.191Z: cova2.view.tableModel.IndexTableModel - Get anime from line 0
+INFO: 2015-02-09T03:31:06.191Z: cova2.controller.MainController - Getting anime from row 0
+INFO: 2015-02-09T03:31:06.191Z: cova2.view.MainView - Getting anime of row 0
+DEBUG: 2015-02-09T03:31:06.191Z: cova2.view.tableModel.IndexTableModel - Get anime from line 0
+DEBUG: 2015-02-09T03:31:06.192Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.192Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.193Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T03:31:06.193Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+INFO: 2015-02-09T03:31:06.198Z: cova2.dao.AnimeDAO - Editing anime ...
+INFO: 2015-02-09T03:31:06.199Z: cova2.dao.AnimeDAO - Creating anime ...
+INFO: 2015-02-09T03:31:06.199Z: cova2.dao.AnimeDAO - Creating anime ...
+INFO: 2015-02-09T03:31:06.201Z: cova2.dao.AnimeDAO - Editing anime ...
+INFO: 2015-02-09T03:31:06.201Z: cova2.dao.AnimeDAO - Reading anime with code 1
+INFO: 2015-02-09T03:31:06.201Z: cova2.dao.AnimeDAO - Creating anime ...
+INFO: 2015-02-09T03:31:06.202Z: cova2.dao.AnimeDAO - Editing anime ...
+INFO: 2015-02-09T03:31:06.203Z: cova2.dao.AnimeDAO - Reading anime with code 1
+INFO: 2015-02-09T03:31:06.204Z: cova2.dao.AnimeDAO - Reading anime with code 100008
+INFO: 2015-02-09T03:31:06.204Z: cova2.dao.AnimeDAO - Deleting anime with code 1
+INFO: 2015-02-09T03:31:06.205Z: cova2.dao.AnimeDAO - Editing anime ...
+INFO: 2015-02-09T03:31:06.205Z: cova2.dao.AnimeDAO - Editing anime ...
+INFO: 2015-02-09T03:31:06.205Z: cova2.dao.AnimeDAO - Reading anime with code 1
+INFO: 2015-02-09T03:31:06.205Z: cova2.dao.AnimeDAO - Editing anime ...
+INFO: 2015-02-09T03:31:06.205Z: cova2.dao.AnimeDAO - Reading anime with code 1
+INFO: 2015-02-09T03:31:06.206Z: cova2.dao.AnimeDAO - Editing anime ...
+INFO: 2015-02-09T03:31:06.206Z: cova2.dao.AnimeDAO - Reading anime with code 1
+INFO: 2015-02-09T03:31:06.206Z: cova2.dao.AnimeDAO - Editing anime ...
+INFO: 2015-02-09T03:31:06.206Z: cova2.dao.AnimeDAO - Deleting anime with code 1
+INFO: 2015-02-09T03:31:06.207Z: cova2.dao.AnimeDAO - Deleting anime with code 1
+INFO: 2015-02-09T03:31:06.208Z: cova2.dao.AnimeDAO - Creating anime ...
+INFO: 2015-02-09T03:31:06.209Z: cova2.dao.AnimeDAO - Editing anime ...
+DEBUG: 2015-02-09T03:31:06.217Z: cova2.dao.IndexDAO - Add Index titlewith codeAnime 0
+DEBUG: 2015-02-09T03:31:06.217Z: cova2.dao.IndexDAO - Index Added
+DEBUG: 2015-02-09T03:31:06.217Z: cova2.dao.IndexDAO - Code index returned 1
+DEBUG: 2015-02-09T03:31:06.217Z: cova2.dao.IndexDAO - Getting 1 indexes from database
+DEBUG: 2015-02-09T03:31:06.218Z: cova2.dao.IndexDAO - Add Index titlewith codeAnime 0
+DEBUG: 2015-02-09T03:31:06.218Z: cova2.dao.IndexDAO - Index Added
+DEBUG: 2015-02-09T03:31:06.218Z: cova2.dao.IndexDAO - Code index returned 1
+DEBUG: 2015-02-09T03:31:06.218Z: cova2.dao.IndexDAO - Add Index titlewith codeAnime 0
+DEBUG: 2015-02-09T03:31:06.218Z: cova2.dao.IndexDAO - Index Added
+DEBUG: 2015-02-09T03:31:06.218Z: cova2.dao.IndexDAO - Code index returned 1
+DEBUG: 2015-02-09T03:31:06.218Z: cova2.dao.IndexDAO - Edit Index titlewith codeAnime 5
+DEBUG: 2015-02-09T03:31:06.218Z: cova2.dao.IndexDAO - Index Edited
+DEBUG: 2015-02-09T03:31:06.218Z: cova2.dao.IndexDAO - Getting 1 indexes from database
+DEBUG: 2015-02-09T03:31:06.219Z: cova2.dao.IndexDAO - Add Index titlewith codeAnime 0
+DEBUG: 2015-02-09T03:31:06.219Z: cova2.dao.IndexDAO - Index Added
+DEBUG: 2015-02-09T03:31:06.219Z: cova2.dao.IndexDAO - Code index returned 1
+DEBUG: 2015-02-09T03:31:06.219Z: cova2.dao.IndexDAO - Add Index titlewith codeAnime 0
+ERROR: 2015-02-09T03:31:06.219Z: cova2.dao.IndexDAO - Delleting Index... CodeIndex invalid
+DEBUG: 2015-02-09T03:31:06.220Z: cova2.dao.
