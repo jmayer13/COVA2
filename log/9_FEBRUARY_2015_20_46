@@ -1,0 +1,43 @@
+INFO: 2015-02-09T22:46:15.653Z: cova2.Main - Running...
+DEBUG: 2015-02-09T22:46:15.770Z: cova2.Main - Smoke Testing ...
+INFO: 2015-02-09T22:46:15.770Z: cova2.SmokeTests - Verifing if this is the only instance!
+DEBUG: 2015-02-09T22:46:15.772Z: cova2.Main - Verifing updates...
+INFO: 2015-02-09T22:46:17.344Z: cova2.Main - Starting...
+INFO: 2015-02-09T22:46:17.355Z: cova2.controller.MainController - Starting view ...
+TRACE: 2015-02-09T22:46:17.369Z: cova2.view.MainView - Starting view ...
+TRACE: 2015-02-09T22:46:17.369Z: cova2.view.MainView - Initializing components
+TRACE: 2015-02-09T22:46:17.575Z: cova2.view.MainView - Encapsuling components in ComponentHacks
+TRACE: 2015-02-09T22:46:17.575Z: cova2.view.MainView - Setting bounds
+TRACE: 2015-02-09T22:46:17.576Z: cova2.view.MainView - Joining components
+TRACE: 2015-02-09T22:46:17.602Z: cova2.view.MainView - View Started
+INFO: 2015-02-09T22:46:17.602Z: cova2.controller.MainController - Shearching data...
+INFO: 2015-02-09T22:46:17.602Z: cova2.controller.MainController - Shearching indexes...
+TRACE: 2015-02-09T22:46:17.604Z: cova2.dao.IndexDAO - Connecting with database ...
+TRACE: 2015-02-09T22:46:17.609Z: cova2.dao.ConnectIndexDB - Verifying if connection is ready
+DEBUG: 2015-02-09T22:46:17.979Z: cova2.dao.ConnectIndexDB - Database is ready: true
+DEBUG: 2015-02-09T22:46:17.979Z: cova2.dao.ConnectIndexDB - The schema is ready
+DEBUG: 2015-02-09T22:46:17.979Z: cova2.dao.ConnectIndexDB - Creating conection...
+DEBUG: 2015-02-09T22:46:17.979Z: cova2.dao.IndexDAO - Getting 0 indexes from database
+INFO: 2015-02-09T22:46:17.979Z: cova2.controller.MainController - Shearching animes...
+TRACE: 2015-02-09T22:46:17.984Z: cova2.controller.MainController - Table model created
+INFO: 2015-02-09T22:46:17.985Z: cova2.view.MainView - Updating tableModel
+INFO: 2015-02-09T22:46:17.985Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T22:46:17.986Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+INFO: 2015-02-09T22:46:17.986Z: cova2.view.tableModel.IndexTableModel - The number of columns is 2
+DEBUG: 2015-02-09T22:46:17.986Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+TRACE: 2015-02-09T22:46:17.987Z: cova2.view.MainView - Adding ActionListener to button add
+TRACE: 2015-02-09T22:46:17.987Z: cova2.view.MainView - Adding ActionListener to button edit
+TRACE: 2015-02-09T22:46:17.988Z: cova2.view.MainView - Adding ActionListener to button +
+TRACE: 2015-02-09T22:46:17.988Z: cova2.view.MainView - Adding ActionListener to button -
+TRACE: 2015-02-09T22:46:17.989Z: cova2.view.MainView - Adding ActionListener to button delete
+TRACE: 2015-02-09T22:46:17.989Z: cova2.view.MainView - Adding WindowListener to view
+DEBUG: 2015-02-09T22:46:18.648Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+DEBUG: 2015-02-09T22:46:18.697Z: cova2.view.tableModel.IndexTableModel - The number of rows is 2
+INFO: 2015-02-09T22:46:24.954Z: cova2.view.MainView - cova2.view.MainView
+TRACE: 2015-02-09T22:46:24.963Z: cova2.dao.IndexDAO - Connecting with database ...
+TRACE: 2015-02-09T22:46:24.963Z: cova2.dao.ConnectIndexDB - Verifying if connection is ready
+DEBUG: 2015-02-09T22:46:24.964Z: cova2.dao.ConnectIndexDB - Database is ready: true
+DEBUG: 2015-02-09T22:46:24.964Z: cova2.dao.ConnectIndexDB - The schema is ready
+DEBUG: 2015-02-09T22:46:24.964Z: cova2.dao.ConnectIndexDB - Creating conection...
+DEBUG: 2015-02-09T22:46:24.965Z: cova2.dao.IndexDAO - Close connection of IndexDAO
+TRACE: 2015-02-09T22:46:24.965Z: cova2.dao.ConnectIndexDB - Closing connection 

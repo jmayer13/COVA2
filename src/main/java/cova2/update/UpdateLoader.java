@@ -23,7 +23,7 @@ import java.net.URL;
 import java.util.stream.Stream;
 
 /**
- * Descrição
+ * Check and Load update
  *
  * @see
  * @author Jonas Mayer (jonas.mayer.developer@gmail.com)
@@ -32,10 +32,22 @@ public class UpdateLoader {
 
     private final int[] actualVersion;
 
+    /**
+     * Contructor with version
+     *
+     * @param actualVersionString actual version in a string
+     */
     public UpdateLoader(String actualVersionString) {
         actualVersion = splitVersion(actualVersionString);
-    }
+    }//end of the constructor
 
+    /**
+     * Check if has update avaliable
+     *
+     * @return <code>Boolean</code> true has update
+     * @throws MalformedURLException
+     * @throws IOException
+     */
     public boolean isUpdateAvaliable() throws MalformedURLException, IOException {
         try {
             URL url = new URL("https://github.com/jmayer13/COVA2/raw/master/bin/version.txt");
@@ -46,8 +58,14 @@ public class UpdateLoader {
         } catch (Exception ex) {
             return false;
         }
-    }
+    }//end of the method isUpdateAvaliable
 
+    /**
+     * Check if version is higher
+     *
+     * @param repoVersionString
+     * @return
+     */
     public boolean isVersionHigher(String repoVersionString) {
         int[] repoVersion = splitVersion(repoVersionString);
         if (repoVersion[0] > actualVersion[0]) {
@@ -66,12 +84,23 @@ public class UpdateLoader {
             }
         }
         return false;
-    }
+    }//end of the method isVersionHigher
 
+    /**
+     * Run updater
+     *
+     * @throws IOException
+     */
     public void runUpdater() throws IOException {
         Process process = Runtime.getRuntime().exec("java -jar updater.jar");
-    }
+    }//end of the method runUpdater
 
+    /**
+     * Split version to comparate
+     *
+     * @param version
+     * @return
+     */
     public int[] splitVersion(String version) {
         String[] versionSpited = version.split("\\.");
         System.out.println(versionSpited[0]);
@@ -80,6 +109,6 @@ public class UpdateLoader {
             versionNumbers[i] = Integer.valueOf(versionSpited[i]);
         }
         return versionNumbers;
-    }
+    }//end of the method splitVersion
 
 }//end of class UpdateLoader 

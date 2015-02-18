@@ -173,6 +173,13 @@ public class IndexDAO {
 
     }//end of the method closeConnection
 
+    /**
+     * Edit index
+     *
+     * @param index
+     * @throws SQLException
+     * @throws UnavailableDataException
+     */
     public void editIndex(Index index) throws SQLException, UnavailableDataException {
         if (index.getCodeIndex() <= 0) {
             throw new NullPointerException("The codeIndex is lower than 1");
@@ -182,11 +189,16 @@ public class IndexDAO {
             throw new UnavailableDataException();
         }
         updateIndex(index);
-
         logManager.debug("Index Edited");
+    }//end of the method editIndex
 
-    }
-
+    /**
+     * Insert index
+     *
+     * @param index
+     * @return
+     * @throws SQLException
+     */
     protected int insertIndex(Index index) throws SQLException {
         PreparedStatement registerStatement = _connection.prepareStatement("INSERT INTO index (main_title, code_anime) VALUES(?,?);");
         registerStatement.setString(1, index.getMainTitleAnime());
@@ -195,8 +207,14 @@ public class IndexDAO {
         int result = registerStatement.executeUpdate();
         registerStatement.close();
         return result;
-    }
+    }//end of the method insertIndex
 
+    /**
+     * Get all indexes in the database
+     *
+     * @return
+     * @throws SQLException
+     */
     protected List<Index> selectIndexes() throws SQLException {
         List<Index> indexes = new ArrayList();
         PreparedStatement searchStatement = _connection.prepareStatement("SELECT code_index, main_title, code_anime FROM index;");
@@ -211,8 +229,15 @@ public class IndexDAO {
         resultSet.close();
         searchStatement.close();
         return indexes;
-    }
+    }//end of the method selectIndexes
 
+    /**
+     * Select index
+     *
+     * @param codeIndex
+     * @return
+     * @throws SQLException
+     */
     protected Index selectIndex(int codeIndex) throws SQLException {
         Index index = null;
         PreparedStatement searchStatement = _connection.prepareStatement("SELECT   main_title, code_anime FROM index WHERE code_index = (?);");
@@ -227,8 +252,14 @@ public class IndexDAO {
         resultSet.close();
         searchStatement.close();
         return index;
-    }
+    }//end of the method selectIndex
 
+    /**
+     * Update index
+     *
+     * @param index
+     * @throws SQLException
+     */
     protected void updateIndex(Index index) throws SQLException {
         PreparedStatement editerStatement = _connection.prepareStatement("UPDATE index SET main_title=?, code_anime=? WHERE code_index=?;");
         editerStatement.setString(1, index.getMainTitleAnime());
@@ -236,14 +267,20 @@ public class IndexDAO {
         editerStatement.setInt(3, index.getCodeIndex());
         editerStatement.executeUpdate();
         editerStatement.close();
-    }
+    }//end ogfthe method updateIndex
 
+    /**
+     * Delete index
+     *
+     * @param index
+     * @return <code>Integer</code> number of lines deleted
+     * @throws SQLException
+     */
     protected int deleteIndex(Index index) throws SQLException {
         PreparedStatement deleteStatement = _connection.prepareStatement("DELETE FROM index WHERE code_index = (?);");
         deleteStatement.setInt(1, index.getCodeIndex());
         int lines = deleteStatement.executeUpdate();
         deleteStatement.close();
         return lines;
-    }
-
+    }//end of the method deleteIndex
 }//end of class IndexDAO 

@@ -37,6 +37,7 @@ public class AddAnimeControllerTest {
 
     private AddAnimeController addAnimeController;
 
+    //test double to obeserver
     private class ObserverTest implements Observer {
 
         public boolean notified = false;
@@ -61,6 +62,7 @@ public class AddAnimeControllerTest {
         testAnimes = new ArrayList();
         testIndexes = new ArrayList();
 
+        //test double create a fake DB that stores temp data
         addAnimeController = new AddAnimeController() {
 
             @Override
@@ -96,6 +98,9 @@ public class AddAnimeControllerTest {
         observerTest = new ObserverTest();
     }//end of the method initialize
 
+    /**
+     * Test add anime
+     */
     public void testAddAnime() {
         Index index = new Index("", 1);
         index.setCodeIndex(1);
@@ -107,11 +112,12 @@ public class AddAnimeControllerTest {
         addAnimeView.setCurrentEpisode(anime.getCurrentEpisode());
         addAnimeController.okAction();
         assertTrue("The anime should be registered", testAnimes.size() > 0);
+    }//end of the method testAddAnime
 
-    }
-
+    /**
+     * Test edit anime
+     */
     public void testEditAnime() {
-
         Index index = new Index("", 1);
         index.setCodeIndex(1);
         testIndexes.add(index);
@@ -122,29 +128,37 @@ public class AddAnimeControllerTest {
         addAnimeController.setIndexAnime(index, anime);
         addAnimeController.okAction();
         assertTrue("The anime should be registered", testAnimes.size() > 0);
+    }//end of the method testEditAnime
 
-    }
-
+    /**
+     * Close View
+     */
     @Test
     public void close() {
         addAnimeController.closeView();
         assertFalse("The view should be closed.", addAnimeController.getView().isOpen());
-    }
+    }//end of the method close
 
     //Subject
+    /**
+     * Test add and notify methods
+     */
     @Test
     public void testAddNotifyObserver() {
         addAnimeController.addObserver(observerTest);
         addAnimeController.notifyObservers();
         assertTrue("Observer not added!", observerTest.notified);
-    }
+    }//end of the method testAddNotifyObserver
 
+    /**
+     * Test remove object
+     */
     @Test
     public void removeObserver() {
         addAnimeController.addObserver(observerTest);
         addAnimeController.deleteObserver(observerTest);
         addAnimeController.notifyObservers();
         assertFalse("Observer not removed!", observerTest.notified);
-    }
+    }//end of the method removeObserver
 
 }//end of the class AddAnimeControllerTest 

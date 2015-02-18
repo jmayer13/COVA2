@@ -15,7 +15,7 @@
 package cova2.exception;
 
 /**
- * Descrição
+ * Data unavaliable trows this exception
  *
  * @see
  * @author Jonas Mayer (jonas.mayer.developer@gmail.com)
@@ -26,4 +26,4 @@ public class UnavailableDataException extends Exception {
         super();
     }
 
-}//fim da classe UnavailableDataException 
+}//end of the UnavailableDataException 

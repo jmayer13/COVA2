@@ -61,7 +61,14 @@ public class UpdateCheck {
         return false;
     }//end of the method hasUpdate
 
-    boolean isUpdating() throws FileNotFoundException, IOException {
+    /**
+     * Check if the update process still running
+     *
+     * @return <code>boolean</code> response
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public boolean isUpdating() throws FileNotFoundException, IOException {
         File updateZip = new File("update.zip");
         if (updateZip.exists()) {
             ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(updateZip));
@@ -83,17 +90,22 @@ public class UpdateCheck {
         } else {
             return false;
         }
-    }
+    }//end of the method isUpdating
 
     void finishUpdate() {
         //TO DO: in case of data convertion or reconfiguration
     }
 
-    boolean checkUpdateFail() {
+    /**
+     * Check if update fails
+     *
+     * @return <code>boolean</code> update fails
+     */
+    public boolean checkUpdateFail() {
         File updateFail = new File("updateFail.err");
         boolean result = updateFail.exists();
         updateFail.delete();
         return result;
-    }
+    }//end of the method checkUpdateFail
 
 }//end of the class UpdateCheck 

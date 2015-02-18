@@ -255,7 +255,13 @@ public class MainController implements Observer {
         updateData();
     }//end of the method update
 
-    //TEST IT
+    /**
+     * Start controller to Edit anime
+     *
+     * @param indexRow
+     * @param animeRow
+     * @return <code>AddAnimeController</code> controller to edit anime
+     */
     public AddAnimeController editAnime(Index indexRow, Anime animeRow) {
         logManager.info("Caling controller to add anime...");
         AddAnimeController addAnimeController = null;
@@ -268,22 +274,13 @@ public class MainController implements Observer {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         return addAnimeController;
-    }
+    }//end of the method AddAnimeController
 
-    //mock it
-    public void decreaseEpisode(Anime animeRow) {
-        logManager.info("Decresing anime current episode...");
-        AnimeDAO animeDAO = new AnimeDAO();
-        try {
-            animeDAO.decreaseEpisode(animeRow);
-        } catch (DataAlreadyRegisteredException | UnavailableDataException ex) {
-            logManager.error("Error editing anime!", ex);
-            ex.printStackTrace();
-        }
-        updateData();
-    }
-
-    //mock it
+    /**
+     * Increase episode of anime
+     *
+     * @param animeRow
+     */
     public void increaseEpisode(Anime animeRow) {
         logManager.info("Incresing anime current episode...");
 
@@ -298,23 +295,53 @@ public class MainController implements Observer {
             ex.printStackTrace();
         }
         updateData();
-    }
+    }//end of the method increaseEpisode
 
-    //TEST IT
+    /**
+     * Decrease episode of anime selected
+     *
+     * @param anime
+     */
+    public void decreaseEpisode(Anime anime) {
+        logManager.info("Decresing anime current episode...");
+        AnimeDAO animeDAO = new AnimeDAO();
+        try {
+            animeDAO.decreaseEpisode(anime);
+        } catch (DataAlreadyRegisteredException | UnavailableDataException ex) {
+            logManager.error("Error editing anime!", ex);
+            ex.printStackTrace();
+        }
+        updateData();
+    }//end of the method decreaseEpisode
+
+    /**
+     * Select row of table
+     *
+     * @param index of row
+     */
     public void selectRow(int index) {
         mainFrame.selectRow(index);
-    }
+    }//end of the method selectRow
 
+    /**
+     * Get the index of row selected
+     *
+     * @return <code>Integer</code> index of row selected
+     */
     public int getIndexRowSelected() {
         return mainFrame.getRowSelected();
-    }
+    }//end of the method getIndexRowSelected
 
+    /**
+     * Delete anime
+     *
+     * @param indexRegistered
+     */
     public void deleteAnime(Index indexRegistered) {
         logManager.info("Deleting anime...");
         IndexDAO indexDAO;
         try {
             indexDAO = new IndexDAO();
-
             indexDAO.eraseIndex(indexRegistered);
             AnimeDAO animeDAO = new AnimeDAO();
             Anime anime = animeDAO.readAnime(indexRegistered.getCodeAnime());
@@ -325,19 +352,29 @@ public class MainController implements Observer {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
+    }//end of the method deleteAnime
 
-    }
-
+    /**
+     * Close view
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void closeView() throws SQLException, ClassNotFoundException {
         mainFrame.close();
         closeConnection();
+    }//end of the method closeView
 
-    }
-
+    /**
+     * Close connection withrelational DB
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     protected void closeConnection() throws SQLException, ClassNotFoundException {
         (new IndexDAO()).closeConnection();
         LogFileStream logFileStream = LogFileStream.getLogFileStream();
         logFileStream.close();
-    }
+    }//end of the method closeConnection
 
 }//end of class MainController 

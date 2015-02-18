@@ -64,7 +64,6 @@ public class MainView {
         logManager = new LogManager(MainView.class.getName());
         logManager.trace("Starting view ...");
         startView();
-        mainFrame.repaint();
     }//end of the constructor
 
     /**
@@ -119,8 +118,8 @@ public class MainView {
         mainFrame.add(deleteButtonComponentHack);
 
         tablesPane.add(table);
-
         mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
         logManager.trace("View Started");
 
     }//end of the method startView

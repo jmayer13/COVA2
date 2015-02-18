@@ -79,6 +79,13 @@ public class AnimeDAO {
         deleteAnime(anime);
     }//end of the method deleteAnime
 
+    /**
+     * Edit anime
+     *
+     * @param anime
+     * @throws DataAlreadyRegisteredException
+     * @throws UnavailableDataException
+     */
     public void editAnime(Anime anime) throws DataAlreadyRegisteredException, UnavailableDataException {
         logManager.info("Editing anime ...");
         if (anime == null) {
@@ -88,8 +95,15 @@ public class AnimeDAO {
             throw new UnavailableDataException();
         }
         updateAnime(anime);
-    }
+    }//end of the method editAnime
 
+    /**
+     * Increase episode
+     *
+     * @param anime
+     * @throws DataAlreadyRegisteredException
+     * @throws UnavailableDataException
+     */
     public void increaseEpisode(Anime anime) throws DataAlreadyRegisteredException, UnavailableDataException {
         double episode = anime.getCurrentEpisode() + 1;
         anime.setCurrentEpisode(episode);
@@ -97,8 +111,15 @@ public class AnimeDAO {
             throw new UnavailableDataException();
         }
         editAnime(anime);
-    }
+    }//end of the method increaseEpisode
 
+    /**
+     * Decrease episode
+     *
+     * @param anime
+     * @throws DataAlreadyRegisteredException
+     * @throws UnavailableDataException
+     */
     public void decreaseEpisode(Anime anime) throws DataAlreadyRegisteredException, UnavailableDataException {
         double episode = anime.getCurrentEpisode();
         if (episode < 0) {
@@ -111,13 +132,24 @@ public class AnimeDAO {
             throw new UnavailableDataException();
         }
         editAnime(anime);
-    }
+    }//end of the method decreaseEpisode
 
+    /**
+     * Insert anime
+     *
+     * @param anime
+     */
     protected void insertAnime(Anime anime) {
         CreateAnime createAnime = new CreateAnime();
         createAnime.createAnime(anime);
-    }
+    }//end of the method insertAnime
 
+    /**
+     * Select anime although anime code
+     *
+     * @param codeAnime
+     * @return
+     */
     protected Anime selectAnime(int codeAnime) {
         try {
             SearchAnime searchAnime = new SearchAnime();
@@ -125,17 +157,28 @@ public class AnimeDAO {
         } catch (Exception ex) {
             return null;
         }
-    }
+    }//end of the method selectAnime
 
+    /**
+     * Update anime
+     *
+     * @param anime
+     * @throws DataAlreadyRegisteredException
+     */
     protected void updateAnime(Anime anime) throws DataAlreadyRegisteredException {
         DeleteAnime deleteAnime = new DeleteAnime();
         deleteAnime.delete(String.valueOf(anime.getCodeAnime()));
         createAnime(anime);
-    }
+    }//end of the method updateAnime
 
+    /**
+     * Delete anime
+     *
+     * @param anime
+     */
     protected void deleteAnime(Anime anime) {
         DeleteAnime deleteAnime = new DeleteAnime();
         deleteAnime.delete(String.valueOf(anime.getCodeAnime()));
-    }
+    }//end of the method deleteAnime
 
 }//end of the class AnimeDAO 

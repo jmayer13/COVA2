@@ -46,7 +46,7 @@ public class AddAnimeController implements Subject {
     private Anime _oldAnime = null;
 
     /**
-     * Start view and define events
+     * Constructor to add anime Start view and define events
      *
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -55,11 +55,25 @@ public class AddAnimeController implements Subject {
         initialize();
     }//end of the constructor 
 
+    /**
+     * Constructor to edit anime Start view and define events
+     *
+     * @param index
+     * @param anime
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public AddAnimeController(Index index, Anime anime) throws SQLException, ClassNotFoundException {
         initialize();
         setIndexAnime(index, anime);
-    }
+    }//end of the constructor 
 
+    /**
+     * Initialize views and variables
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     protected void initialize() throws SQLException, ClassNotFoundException {
         logManager = new LogManager(AddAnimeController.class.getName());
         observers = new ArrayList();
@@ -78,7 +92,7 @@ public class AddAnimeController implements Subject {
                 closeView();
             }
         });
-    }
+    }//end of the method initialize
 
     /**
      * Action to OK button
@@ -109,9 +123,14 @@ public class AddAnimeController implements Subject {
         }
     }//end of the method okAction
 
+    /**
+     * Check if form has valid data
+     *
+     * @return <code>Boolean</code> true if valid
+     */
     protected boolean isValid() {
         return addAnimeView.isValid();
-    }
+    }//end of the method isValid
 
     /**
      * Register anime with anime data and index
@@ -121,6 +140,7 @@ public class AddAnimeController implements Subject {
      * @return <code>Index</code> index registered
      * @throws SQLException
      * @throws java.lang.ClassNotFoundException
+     * @throws cova2.exception.DataAlreadyRegisteredException
      */
     public Index registerAnime(Index index, Anime anime) throws SQLException, ClassNotFoundException, DataAlreadyRegisteredException {
         IndexDAO indexDAO = new IndexDAO();
@@ -138,7 +158,6 @@ public class AddAnimeController implements Subject {
      * @throws java.lang.ClassNotFoundException
      */
     public Index getIndex() throws SQLException, ClassNotFoundException {
-
         Index index = null;
         if (isValid()) {
             if (_oldIndex == null) {
@@ -150,13 +169,19 @@ public class AddAnimeController implements Subject {
             }
         }
         return index;
-
     }//end of the method getIndex
 
+    /**
+     * Get recommended code for anime (biggest code +1)
+     *
+     * @return <code>Integer</code> code recommended
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public int getRecommendedCodeAnime() throws SQLException, ClassNotFoundException {
         IndexDAO indexDAO = new IndexDAO();
         return indexDAO.getRecommendedCodeAnime();
-    }
+    }//end of the method getRecommendedCodeAnime
 
     /**
      * Get anime from table
@@ -164,7 +189,6 @@ public class AddAnimeController implements Subject {
      * @return <code>Anime</code>
      */
     public Anime getAnime(Index index) throws SQLException, ClassNotFoundException {
-
         Anime anime = null;
         if (isValid()) {
             if (_oldAnime == null) {
@@ -190,6 +214,9 @@ public class AddAnimeController implements Subject {
         closeConnections();
     }//end of the method closeView
 
+    /**
+     * Close connection
+     */
     protected void closeConnections() {
         try {
             IndexDAO indexDAO = new IndexDAO();
@@ -198,9 +225,8 @@ public class AddAnimeController implements Subject {
             logManager.error("Error closing connection ", ex);
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-
         }
-    }
+    }//end of the method closeConnections
 
     /**
      * Add obsertver
@@ -246,17 +272,33 @@ public class AddAnimeController implements Subject {
         return addAnimeView;
     }//end of the method getView
 
+    /**
+     * Edit anime
+     *
+     * @param index
+     * @param anime
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     * @throws DataAlreadyRegisteredException
+     * @throws UnavailableDataException
+     */
     protected void editAnime(Index index, Anime anime) throws SQLException, ClassNotFoundException, DataAlreadyRegisteredException, UnavailableDataException {
         IndexDAO indexDAO = new IndexDAO();
         AnimeDAO animeDAO = new AnimeDAO();
         indexDAO.editIndex(index);
         animeDAO.editAnime(anime);
-    }
+    }//end of the method editAnime
 
+    /**
+     * Set data to be edited
+     *
+     * @param oldIndex
+     * @param oldAnime
+     */
     protected void setIndexAnime(Index oldIndex, Anime oldAnime) {
         _oldIndex = oldIndex;
         _oldAnime = oldAnime;
         addAnimeView.setTitleAnime(oldIndex.getMainTitleAnime());
         addAnimeView.setCurrentEpisode(oldAnime.getCurrentEpisode());
-    }
+    }//end of the method setIndexAnime
 }//end of the class AddAnimeController 

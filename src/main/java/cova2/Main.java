@@ -76,11 +76,11 @@ public class Main {
     protected boolean doUpdateCheck() {
         try {
             UpdateCheck updateCheck = new UpdateCheck();
-            if (updateCheck.isUpdating()) {
+            if (updateCheck.checkUpdateFail()) {
+                return false;
+            } else if (updateCheck.isUpdating()) {
                 updateCheck.finishUpdate();
                 return doUpdateCheck();
-            } else if (updateCheck.checkUpdateFail()) {
-                return false;
             } else if (updateCheck.hasUpdate()) {
                 return true;
             } else {

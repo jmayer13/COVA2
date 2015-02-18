@@ -18,11 +18,15 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
+ * UnitTest to Main
  *
  * @author Jonas Mayer (jonas.mayer.developer@gmail.com)
  */
 public class MainTest {
 
+    /**
+     * Test check of main
+     */
     @Test
     public void testStartMain() {
         Main main = new Main() {
@@ -38,6 +42,5 @@ public class MainTest {
         };
 
         assertTrue("The main did start!", main.startMain());
-    }
-
-}
+    }//end of the method testStartMain
+}//end of the class MainTest

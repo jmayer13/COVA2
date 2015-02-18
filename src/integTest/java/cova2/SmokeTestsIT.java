@@ -20,31 +20,40 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- * Descrição
+ * Integration Test to smoke test
  *
  * @see
  * @author Jonas Mayer (jonas.mayer.developer@gmail.com)
  */
 public class SmokeTestsIT {
 
+    /**
+     * test if is the simgle instance
+     */
     @Test
     public void testIsSingleInstance() {
         SmokeTests smokeTests = new SmokeTests();
         assertTrue(smokeTests.isSingleInstance());
-    }
+    }//end of the method testIsSingleInstance
 
+    /**
+     * Test if the mechanism of lock works
+     */
     @Test
     public void testIsNotSingleInstance() {
         SmokeTests smokeTests = new SmokeTests();
         smokeTests.isSingleInstance();
         assertFalse(smokeTests.isSingleInstance());
-    }
+    }//end of the method testIsNotSingleInstance
 
+    /**
+     *
+     * @throws IOException
+     */
     @Test
     public void testHasFilePermission() throws IOException {
         SmokeTests smokeTests = new SmokeTests();
         assertTrue(smokeTests.hasFilePermission());
+    }//end of the method testHasFilePermission
 
-    }
-
-}//fim da classe SmokeTestsIT 
+}//end of the class SmokeTestsIT 

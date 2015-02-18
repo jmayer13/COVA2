@@ -15,7 +15,7 @@
 package cova2.exception;
 
 /**
- * Descrição
+ * Throws this exception if data already exists in database
  *
  * @see
  * @author Jonas Mayer (jonas.mayer.developer@gmail.com)
@@ -26,4 +26,4 @@ public class DataAlreadyRegisteredException extends Exception {
         super();
     }
 
-}//fim da classe DataAlreadyRegisteredException 
+}//end of the class DataAlreadyRegisteredException 
