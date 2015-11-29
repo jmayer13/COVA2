@@ -1,3 +1,5 @@
+import java.util.regex.Pattern
+
 apply plugin: 'java'
 apply plugin: 'scala'
 apply plugin: 'application'
@@ -7,6 +9,7 @@ apply plugin: 'application'
 //apply plugin: 'findbugs'
 //apply plugin: "sonar"
 
+version = '1.0'
 sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
@@ -14,6 +17,7 @@ sourceCompatibility = '1.8'
 sourceSets.main.scala.srcDir "src/main/java"
 sourceSets.main.java.srcDirs = [] 
 mainClassName = "cova2.Main"
+
 sourceSets {
     integTest {
         java.srcDir file('src/integTest/java')
@@ -23,11 +27,13 @@ sourceSets {
         java.srcDir file('src/cucumberTest/java')
         resources.srcDir file('src/cucumberTest/resources')
     } 
-} 
+}
+
 task integTest(type: Test) {
     testClassesDir = sourceSets.integTest.output.classesDir
     classpath = sourceSets.integTest.runtimeClasspath
-} 
+}
+
 task cucumberTest(type: Test) {
     testClassesDir = sourceSets.cucumberTest.output.classesDir
     classpath = sourceSets.cucumberTest.runtimeClasspath
@@ -104,11 +110,117 @@ task wrapper(type: Wrapper) {
 //    scalaCompileOptions.useAnt = false
 //}
 
-jar {
-    manifest {
-        attributes 'Main-Class': 'cova2.Main'
-    } 
-    doFirst {
-        from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+task createVersionFile(){
+	println "createVersionFile"
+	def inputFile = file("version.txt")
+	
+	def patternVersionNumber = Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)")
+    def versionText = inputFile.getText()
+
+    def matcherVersionNumber = patternVersionNumber.matcher(versionText)
+    matcherVersionNumber.find()
+    def majorVersion = Integer.parseInt(matcherVersionNumber.group(1))
+    def minorVersion = Integer.parseInt(matcherVersionNumber.group(2))
+    def subVersion = Integer.parseInt(matcherVersionNumber.group(3))
+	def pointVersion = Integer.parseInt(matcherVersionNumber.group(4))
+    version  = majorVersion + "." + minorVersion + "." + subVersion + "." + (pointVersion +1)
+	
+	println "Build: " + version
+	
+	def outputFile = file("src/main/resources/version.txt")
+	if (!outputFile.isFile()) {
+		outputFile.parentFile.mkdirs()
+		outputFile.createNewFile()	
+	}
+	outputFile.write "$version"
+	inputFile.write "$version"
+}
+
+task releaseVersionFile() << {
+	println "releaseVersionFile"
+	def inputFile = file("version.txt")
+	
+	def patternVersionNumber = Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)")
+    def versionText = inputFile.getText()
+	println  versionText
+	
+	
+    def matcherVersionNumber = patternVersionNumber.matcher(versionText)
+    matcherVersionNumber.find()
+    def majorVersion = Integer.parseInt(matcherVersionNumber.group(1))
+    def minorVersion = Integer.parseInt(matcherVersionNumber.group(2))
+    def subVersion = Integer.parseInt(matcherVersionNumber.group(3))
+	def pointVersion = Integer.parseInt(matcherVersionNumber.group(4))
+	
+	subVersion = subVersion +1
+	
+	if (subVersion > 9) {
+		subVersion = 0
+		minorVersion = minorVersion +1
+	}
+	if (minorVersion > 9) {
+		minorVersion = 0
+		majorVersion = majorVersion +1
+	}
+	
+    version  = majorVersion + "." + minorVersion + "." + subVersion + "." + (pointVersion)
+	
+	println "Release: " + version
+	
+	def outputFile = file("src/main/resources/version.txt")
+	if (!outputFile.isFile()) {
+		outputFile.parentFile.mkdirs()
+		outputFile.createNewFile()	
+	}
+	outputFile.write "$version"
+	inputFile.write "$version"
+}
+
+task fatJar(type: Jar, dependsOn: ['clean','createVersionFile',":updater:fatJar", 'build']){
+
+	manifest {
+        attributes 'Main-Class': 'cova2.Main',
+		'Implementation-Title': 'COVA 2',  
+        'Implementation-Version': version
     }
+
+	doFirst(){
+		from file('version.txt')
+		into project(':updater').file('version.txt')
+		
+		from file('src/main/resources/version.txt')
+		into project(':updater').file('src/main/resources/version.txt')
+	}
+	
+	doLast(){
+		from files(sourceSets.main.output.classesDir)
+		from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+		with jar
+		
+		archiveName = 'cova2.jar'
+		destinationDir = file("${buildDir}/jars")
+	}
+}
+fatJar.onlyIf{ dependsOnTaskDidWork() } 
+
+task createZip(type:Zip,dependsOn:fatJar) << { 
+	from file('build/jars')
+	//include updater.jar in zip
+	from file('updater/build/jars')
+	baseName = 'cova2'
+	destinationDir = file('dist')
+}
+
+task go(dependsOn:createZip) {
+	doFirst {
+		println "GO AQUARION!"
+	}
+	doLast{
+		if(tasks.fatJar.didWork) {
+			println "DONE!"
+		} else {
+			println "FAIL!"
+		}
+	}
+	//deploy
 }

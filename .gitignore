@@ -20,6 +20,9 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Jedit
+*~
+
 
 ### Java ###
 *.class
