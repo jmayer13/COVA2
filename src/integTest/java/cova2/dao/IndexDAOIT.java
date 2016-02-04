@@ -1,17 +1,3 @@
-/**
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <http://www.gnu.org/licenses/>.
- */
 package cova2.dao;
 
 import cova2.exception.DataAlreadyRegisteredException;
@@ -47,7 +33,7 @@ public class IndexDAOIT {
     }
 
     /**
-     * Test recue the code for the index thought of title and code anime
+     * Test rescue the code for the index thought of title and code anime
      *
      * @throws SQLException
      * @throws ClassNotFoundException
@@ -60,7 +46,7 @@ public class IndexDAOIT {
     }//end of the method testRescueCodeIndex
 
     /**
-     * Test recomended anime code
+     * Test recommended anime code
      */
     @Test
     public void testGetRecomendedCodeAnime() throws SQLException, ClassNotFoundException, DataAlreadyRegisteredException {
@@ -70,7 +56,7 @@ public class IndexDAOIT {
     }//end of the method testGetRecomendedAnimeCode
 
     /**
-     * Test recomended anime code with empty database
+     * Test recommended anime code with empty database
      */
     @Test
     public void testEmptyGetRecomendedCodeAnime() throws SQLException, ClassNotFoundException {
