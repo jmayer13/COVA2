@@ -1,3 +1,5 @@
+import java.util.regex.Pattern
+
 apply plugin: 'java'
 apply plugin: 'scala'
 apply plugin: 'application'
@@ -7,13 +9,29 @@ apply plugin: 'application'
 //apply plugin: 'findbugs'
 //apply plugin: "sonar"
 
+version = '1.0.0.0'
 sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+//Gradle Wrapper
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2'
+}
+
+repositories {
+    mavenCentral()
+}
+
 
 //this works to avoid problems with mixed projects
 sourceSets.main.scala.srcDir "src/main/java"
 sourceSets.main.java.srcDirs = [] 
 mainClassName = "cova2.Main"
+
+if (!hasProperty('mainClass')) {
+    ext.mainClass = 'Main'
+}
+
 sourceSets {
     integTest {
         java.srcDir file('src/integTest/java')
@@ -23,16 +41,17 @@ sourceSets {
         java.srcDir file('src/cucumberTest/java')
         resources.srcDir file('src/cucumberTest/resources')
     } 
-} 
+}
+
 task integTest(type: Test) {
     testClassesDir = sourceSets.integTest.output.classesDir
     classpath = sourceSets.integTest.runtimeClasspath
-} 
+}
+
 task cucumberTest(type: Test) {
     testClassesDir = sourceSets.cucumberTest.output.classesDir
     classpath = sourceSets.cucumberTest.runtimeClasspath
 }
-
 
 sourceSets.test.scala.srcDir "src/test/java"
 sourceSets.test.java.srcDirs = []
@@ -40,22 +59,9 @@ sourceSets.test.java.srcDirs = []
 check.dependsOn integTest
 check.dependsOn cucumberTest
 
-if (!hasProperty('mainClass')) {
-    ext.mainClass = 'Main'
-}  
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    //h2 relational database
-    //compile 'com.h2database:h2:1.4.181'
     compile fileTree('libs')
-    //scala
     compile 'org.scala-lang:scala-library:2.11.2' 
-    //JFreeChart
-    //compile 'org.jfree:jfreechart:1.0.19' 
     //JSON4S jackson
     compile 'org.json4s:json4s-jackson_2.11:3.2.11'
     //junit unitary test library
@@ -73,9 +79,9 @@ dependencies {
     cucumberTestCompile sourceSets.main.output
     cucumberTestCompile configurations.testCompile
     cucumberTestCompile sourceSets.test.output
-    cucumberTestRuntime configurations.testRuntime
-    
+    cucumberTestRuntime configurations.testRuntime 
 }
+
 test {
     testLogging {
         // Show that tests are run in the command-line output
@@ -83,32 +89,113 @@ test {
     }
 }
 
-//Gradle Wrapper
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.2'
+task createVersionFile() << {
+	println "createVersionFile"
+	def inputFile = file("version.txt")
+	
+	def patternVersionNumber = Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)")
+    def versionText = inputFile.getText()
+
+    def matcherVersionNumber = patternVersionNumber.matcher(versionText)
+    matcherVersionNumber.find()
+    def majorVersion = Integer.parseInt(matcherVersionNumber.group(1))
+    def minorVersion = Integer.parseInt(matcherVersionNumber.group(2))
+    def subVersion = Integer.parseInt(matcherVersionNumber.group(3))
+	def pointVersion = Integer.parseInt(matcherVersionNumber.group(4))
+    version  = majorVersion + "." + minorVersion + "." + subVersion + "." + (pointVersion +1)
+	
+	println "Build: " + version
+	
+	def outputFile = file("src/main/resources/version.txt")
+	if (!outputFile.isFile()) {
+		outputFile.parentFile.mkdirs()
+		outputFile.createNewFile()	
+	}
+	outputFile.write "$version"
+	inputFile.write "$version"
 }
 
-//sonar {
-//    database {
-//        url = "org.h2.Driver"
-//        driverClassName = "jdbc:h2:./data/db/index"
-//        username = "cova2"
-//        password = ""
-//   }
-//    project {
-//        coberturaReportPath = file("$buildDir/cobertura.xml")
-//   }
-//} 
-//
-//tasks.withType(ScalaCompile) {
-//    scalaCompileOptions.useAnt = false
-//}
+task releaseVersionFile() << {
+	println "releaseVersionFile"
+	def inputFile = file("version.txt")
+	
+	def patternVersionNumber = Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)")
+    def versionText = inputFile.getText()
+	println  versionText
+	
+	
+    def matcherVersionNumber = patternVersionNumber.matcher(versionText)
+    matcherVersionNumber.find()
+    def majorVersion = Integer.parseInt(matcherVersionNumber.group(1))
+    def minorVersion = Integer.parseInt(matcherVersionNumber.group(2))
+    def subVersion = Integer.parseInt(matcherVersionNumber.group(3))
+	def pointVersion = Integer.parseInt(matcherVersionNumber.group(4))
+	
+	subVersion = subVersion +1
+	
+	if (subVersion > 9) {
+		subVersion = 0
+		minorVersion = minorVersion +1
+	}
+	if (minorVersion > 9) {
+		minorVersion = 0
+		majorVersion = majorVersion +1
+	}
+	
+    version  = majorVersion + "." + minorVersion + "." + subVersion + "." + (pointVersion)
+	
+	println "Release: " + version
+	
+	def outputFile = file("src/main/resources/version.txt")
+	if (!outputFile.isFile()) {
+		outputFile.parentFile.mkdirs()
+		outputFile.createNewFile()	
+	}
+	outputFile.write "$version"
+	inputFile.write "$version"
+}
+
+task createZip(type:Zip,dependsOn:jar) {
+	from file('build/jars')
+	include "cova2.jar"
+	from file('updater/build/jars')
+	include 'updater.jar'
+	from file('src/main/resources/')
+	include 'version.txt'
+	baseName = 'cova2'
+	destinationDir = file('dist')
+}
+
 
 jar {
-    manifest {
-        attributes 'Main-Class': 'cova2.Main'
-    } 
-    doFirst {
-        from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+	dependsOn 'createVersionFile',":updater:jar"
+	
+	manifest {
+        attributes 'Main-Class': 'cova2.Main',
+		'Implementation-Title': 'COVA 2',  
+        'Implementation-Version': version
     }
+
+	from {
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+	
+	archiveName = 'cova2.jar'
+	destinationDir = file("${buildDir}/jars")
+}
+
+
+
+task go(dependsOn:createZip) {
+	doFirst {
+		println "GO AQUARION!"
+	}	
+	doLast{
+		if(tasks.jar.didWork) {
+			println "DONE!"
+		} else {
+			println "FAIL!"
+		}
+	}
+	//deploy
 }
